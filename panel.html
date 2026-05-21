@@ -138,7 +138,7 @@
         const SUPABASE_URL = 'https://ktklvnhowupxyyqwghtf.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0a2x2bmhvd3VweHl5cXdnaHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNTU5MjAsImV4cCI6MjA5NDkzMTkyMH0.4aUdtuXkU78sSX0PX_yLm9GVsoSoJ2iKmhqs3af4MHI';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         let editingId = null;
 
         // Cargar eventos
@@ -193,7 +193,7 @@
 
             try {
                 if (editingId) {
-                    const { error } = await supabase.from('eventos').update(data).eq('id', editingId);
+                    const { error } = await supabaseClient.from('eventos').update(data).eq('id', editingId);
                     if (error) throw error;
                     showSuccess('✅ Evento actualizado');
                 } else {
