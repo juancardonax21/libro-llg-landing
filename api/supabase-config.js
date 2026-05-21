@@ -1,14 +1,16 @@
-// api/supabase-config.js
-// Endpoint API de Vercel que devuelve la configuración de Supabase
-
-export default function handler(req, res) {
-    // Habilitar CORS
+module.exports = (req, res) => {
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
     
-    // Devolver las credenciales desde las variables de entorno
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
+    }
+    
     res.status(200).json({
         url: process.env.SUPABASE_URL || '',
         key: process.env.SUPABASE_ANON_KEY || ''
     });
-}
+};
