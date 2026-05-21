@@ -399,12 +399,12 @@
             <div class="config-grid">
                 <div class="form-group">
                     <label>Supabase URL</label>
-                    <input type="text" id="supabaseUrl" placeholder="https://ktklvnhowupxyyqwghtf.supabase.co">
+                    <input type="text" id="supabaseUrl" placeholder="https://xxxxx.supabase.co">
                     <p class="help-text">La URL de tu proyecto en Supabase</p>
                 </div>
                 <div class="form-group">
                     <label>Supabase Anon Key</label>
-                    <input type="text" id="supabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0a2x2bmhvd3VweHl5cXdnaHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNTU5MjAsImV4cCI6MjA5NDkzMTkyMH0.4aUdtuXkU78sSX0PX_yLm9GVsoSoJ2iKmhqs3af4MHI">
+                    <input type="text" id="supabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
                     <p class="help-text">La clave pública (anon/public key)</p>
                 </div>
             </div>
@@ -513,12 +513,34 @@
         let supabase = null;
         let editingEventId = null;
 
-        // Cargar configuración guardada
-        window.addEventListener('DOMContentLoaded', () => {
+        // Cargar configuración guardada o desde API
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Primero intentar cargar desde la API de Vercel (variables de entorno)
+            try {
+                const response = await fetch('/api/supabase-config');
+                if (response.ok) {
+                    const config = await response.json();
+                    
+                    if (config.url && config.key) {
+                        console.log('✅ Credenciales cargadas desde variables de entorno de Vercel');
+                        document.getElementById('supabaseUrl').value = config.url;
+                        document.getElementById('supabaseKey').value = config.key;
+                        
+                        // Auto-inicializar
+                        initSupabase(config.url, config.key);
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.log('ℹ️ Variables de entorno no configuradas, usando localStorage');
+            }
+            
+            // Fallback: cargar desde localStorage
             const savedUrl = localStorage.getItem('supabase_url');
             const savedKey = localStorage.getItem('supabase_key');
             
             if (savedUrl && savedKey) {
+                console.log('✅ Credenciales cargadas desde localStorage');
                 document.getElementById('supabaseUrl').value = savedUrl;
                 document.getElementById('supabaseKey').value = savedKey;
                 initSupabase(savedUrl, savedKey);
@@ -526,7 +548,7 @@
         });
 
         // Guardar configuración
-        function saveConfig() {
+        async function saveConfig() {
             const url = document.getElementById('supabaseUrl').value.trim();
             const key = document.getElementById('supabaseKey').value.trim();
             
@@ -535,11 +557,44 @@
                 return;
             }
             
-            localStorage.setItem('supabase_url', url);
-            localStorage.setItem('supabase_key', key);
+            // Validar formato de URL
+            if (!url.includes('supabase.co')) {
+                showAlert('error', 'La URL debe ser de Supabase (ejemplo: https://xxxxx.supabase.co)');
+                return;
+            }
             
-            initSupabase(url, key);
-            showAlert('success', '✅ Configuración guardada. Conectando a Supabase...');
+            // Validar formato de key (debe ser un JWT)
+            if (!key.startsWith('eyJ')) {
+                showAlert('error', 'La clave parece incorrecta. Debe empezar con "eyJ"');
+                return;
+            }
+            
+            showAlert('info', '⏳ Verificando conexión con Supabase...');
+            
+            // Intentar conectar y verificar
+            try {
+                const testClient = window.supabase.createClient(url, key);
+                
+                // Probar la conexión intentando leer la tabla
+                const { data, error } = await testClient
+                    .from('eventos')
+                    .select('count', { count: 'exact', head: true });
+                
+                if (error) {
+                    throw new Error('No se pudo conectar a la tabla "eventos". Verifica que:\n1. Hayas ejecutado el script SQL\n2. La tabla "eventos" exista\n3. Las credenciales sean correctas\n\nError: ' + error.message);
+                }
+                
+                // Conexión exitosa
+                localStorage.setItem('supabase_url', url);
+                localStorage.setItem('supabase_key', key);
+                
+                initSupabase(url, key);
+                showAlert('success', '✅ Conexión exitosa! Cargando eventos...');
+                
+            } catch (error) {
+                showAlert('error', 'Error de conexión: ' + error.message);
+                console.error('Error completo:', error);
+            }
         }
 
         // Inicializar Supabase
