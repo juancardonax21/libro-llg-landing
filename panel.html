@@ -197,7 +197,7 @@
                     if (error) throw error;
                     showSuccess('✅ Evento actualizado');
                 } else {
-                    const { error } = await supabase.from('eventos').insert([data]);
+                    const { error } = await supabaseClient.from('eventos').insert([data]);
                     if (error) throw error;
                     showSuccess('✅ Evento añadido');
                 }
@@ -212,7 +212,7 @@
         // Editar
         async function editEvent(id) {
             try {
-                const { data, error } = await supabase.from('eventos').select('*').eq('id', id).single();
+                const { data, error } = await supabaseClient.from('eventos').select('*').eq('id', id).single();
                 if (error) throw error;
 
                 editingId = id;
@@ -235,7 +235,7 @@
         // Toggle activo
         async function toggleActive(id, newState) {
             try {
-                const { error } = await supabase.from('eventos').update({ activo: newState }).eq('id', id);
+                const { error } = await supabaseClient.from('eventos').update({ activo: newState }).eq('id', id);
                 if (error) throw error;
                 showSuccess(newState ? '✅ Activado' : '❌ Desactivado');
                 loadEvents();
@@ -249,7 +249,7 @@
             if (!confirm('¿Eliminar este evento?')) return;
             
             try {
-                const { error } = await supabase.from('eventos').delete().eq('id', id);
+                const { error } = await supabaseClient.from('eventos').delete().eq('id', id);
                 if (error) throw error;
                 showSuccess('🗑️ Evento eliminado');
                 loadEvents();
