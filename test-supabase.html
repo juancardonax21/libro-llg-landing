@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Test Conexión Supabase</h1>
+    <button onclick="testConnection()">Probar Conexión</button>
+    <pre id="result"></pre>
+
+    <script>
+        async function testConnection() {
+            const result = document.getElementById('result');
+            result.textContent = 'Conectando...';
+            
+            const supabase = window.supabase.createClient(
+                'https://ktklvnhowupxyyqwghtf.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0a2x2bmhvd3VweHl5cXdnaHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNTU5MjAsImV4cCI6MjA5NDkzMTkyMH0.4aUdtuXkU78sSX0PX_yLm9GVsoSoJ2iKmhqs3af4MHI'
+            );
+            
+            const { data, error } = await supabase.from('eventos').select('*');
+            
+            result.textContent = JSON.stringify({ data, error }, null, 2);
+        }
+    </script>
+</body>
+</html>
