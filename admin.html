@@ -3,738 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Eventos del Libro</title>
+    <title>Admin - Eventos</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --color-primary: #1a1a1a;
-            --color-secondary: #8b6914;
-            --color-accent: #c49a3d;
-            --color-bg: #f5f5f5;
-            --color-success: #28a745;
-            --color-danger: #dc3545;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: var(--color-bg);
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             padding: 2rem;
-            min-height: 100vh;
+            background: #f5f5f5;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { margin-bottom: 2rem; color: #1a1a1a; }
+        .form-card, .events-card { 
             background: white;
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
         }
-
-        h1 {
-            color: var(--color-primary);
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        .admin-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .card h2 {
-            color: var(--color-secondary);
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
+        .form-group { margin-bottom: 1rem; }
+        label { 
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: #333;
-            font-size: 0.9rem;
         }
-
         input, textarea, select {
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e0e0e0;
             border-radius: 4px;
             font-size: 1rem;
-            transition: border-color 0.3s;
         }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--color-secondary);
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-            font-family: inherit;
-        }
-
-        .button {
+        textarea { min-height: 100px; font-family: inherit; }
+        button {
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 4px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            margin-right: 0.5rem;
         }
-
-        .button-primary {
-            background: var(--color-secondary);
-            color: white;
-        }
-
-        .button-primary:hover {
-            background: var(--color-accent);
-            transform: translateY(-2px);
-        }
-
-        .button-secondary {
-            background: #6c757d;
-            color: white;
-        }
-
-        .button-secondary:hover {
-            background: #5a6268;
-        }
-
-        .button-danger {
-            background: var(--color-danger);
-            color: white;
-        }
-
-        .button-danger:hover {
-            background: #c82333;
-        }
-
-        .button-small {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
+        .btn-primary { background: #8b6914; color: white; }
+        .btn-primary:hover { background: #c49a3d; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
         .alert {
             padding: 1rem;
             border-radius: 4px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             display: none;
-            animation: slideDown 0.3s ease;
         }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border-left: 4px solid var(--color-success);
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 4px solid var(--color-danger);
-        }
-
-        .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left: 4px solid #17a2b8;
-        }
-
-        .event-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
+        .alert.show { display: block; }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-error { background: #f8d7da; color: #721c24; }
         .event-item {
             background: #f9f9f9;
             padding: 1.5rem;
             border-radius: 4px;
-            border-left: 4px solid var(--color-accent);
-            transition: all 0.3s;
-        }
-
-        .event-item:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transform: translateX(5px);
-        }
-
-        .event-item.inactive {
-            opacity: 0.6;
-            border-left-color: #ccc;
-        }
-
-        .event-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 0.75rem;
-        }
-
-        .event-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--color-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .event-date {
-            color: var(--color-secondary);
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .event-location {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .event-description {
-            color: #555;
-            font-size: 0.9rem;
-            line-height: 1.5;
             margin-bottom: 1rem;
+            border-left: 4px solid #c49a3d;
         }
-
-        .event-actions {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .badge-inactive {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .badge-order {
-            background: #e7f3ff;
-            color: #004085;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-            color: #666;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--color-secondary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #999;
-        }
-
-        .empty-state svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--color-secondary);
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        .config-section {
-            background: #fff9e6;
-            border: 2px solid var(--color-accent);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .config-section h3 {
-            color: var(--color-secondary);
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-
-        .config-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .help-text {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-
-        @media (max-width: 968px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .config-grid {
-                grid-template-columns: 1fr;
-            }
-
-            body {
-                padding: 1rem;
-            }
-        }
+        .event-item.inactive { opacity: 0.6; }
+        .event-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .event-meta { color: #666; margin-bottom: 0.5rem; }
+        .event-actions { margin-top: 1rem; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>📅 Panel de Administración - Eventos</h1>
-            <p class="subtitle">Gestiona los eventos de la landing page del libro</p>
-        </header>
-
-        <!-- Configuración de Supabase -->
-        <div class="config-section" id="configSection">
-            <h3>⚙️ Configuración de Supabase</h3>
-            <p class="help-text" style="margin-bottom: 1rem;">
-                Necesitas configurar tus credenciales de Supabase para usar este panel. 
-                <a href="https://supabase.com" target="_blank" style="color: var(--color-secondary);">Crear cuenta en Supabase →</a>
-            </p>
-            <div class="config-grid">
-                <div class="form-group">
-                    <label>Supabase URL</label>
-                    <input type="text" id="supabaseUrl" placeholder="https://xxxxx.supabase.co">
-                    <p class="help-text">La URL de tu proyecto en Supabase</p>
-                </div>
-                <div class="form-group">
-                    <label>Supabase Anon Key</label>
-                    <input type="text" id="supabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
-                    <p class="help-text">La clave pública (anon/public key)</p>
-                </div>
-            </div>
-            <button class="button button-primary" onclick="saveConfig()">💾 Guardar Configuración</button>
-            <p class="help-text" style="margin-top: 1rem;">
-                📚 <a href="../SUPABASE_SETUP.md" style="color: var(--color-secondary);">Ver guía completa de configuración</a>
-            </p>
-        </div>
-
-        <!-- Alertas -->
+        <h1>📅 Admin - Eventos</h1>
+        
         <div class="alert alert-success" id="successAlert"></div>
         <div class="alert alert-error" id="errorAlert"></div>
-        <div class="alert alert-info" id="infoAlert"></div>
-
-        <!-- Estadísticas -->
-        <div class="stats" id="statsContainer" style="display: none;">
-            <div class="stat-card">
-                <div class="stat-value" id="totalEvents">0</div>
-                <div class="stat-label">Total Eventos</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="activeEvents">0</div>
-                <div class="stat-label">Activos</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="inactiveEvents">0</div>
-                <div class="stat-label">Inactivos</div>
-            </div>
-        </div>
-
-        <!-- Grid principal -->
-        <div class="admin-grid" id="mainContent" style="display: none;">
-            <!-- Formulario -->
-            <div class="card">
-                <h2>➕ <span id="formTitle">Añadir Evento</span></h2>
-                <form id="eventForm">
-                    <input type="hidden" id="eventId">
-                    
-                    <div class="form-group">
-                        <label>Fecha *</label>
-                        <input type="text" id="fecha" placeholder="ej: 15 Junio" required>
-                        <p class="help-text">Formato libre: "15 Junio", "Verano 2026", etc.</p>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Año *</label>
-                        <input type="text" id="año" placeholder="2026" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Título del evento *</label>
-                        <input type="text" id="titulo" placeholder="ej: Presentación en Barcelona" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Lugar *</label>
-                        <input type="text" id="lugar" placeholder="ej: Ateneo Barcelonés" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Descripción *</label>
-                        <textarea id="descripcion" placeholder="Detalles del evento..." required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Orden de visualización *</label>
-                        <input type="number" id="orden" placeholder="1" value="1" min="1" required>
-                        <p class="help-text">Los eventos se ordenan de menor a mayor</p>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Estado</label>
-                        <select id="activo">
-                            <option value="true">✅ Activo (visible en la web)</option>
-                            <option value="false">❌ Inactivo (oculto)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button type="submit" class="button button-primary" id="submitBtn">
-                            ➕ Añadir Evento
-                        </button>
-                        <button type="button" class="button button-secondary" onclick="resetForm()" id="cancelBtn" style="display: none;">
-                            ❌ Cancelar
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Lista de eventos -->
-            <div class="card">
-                <h2>📋 Eventos Actuales</h2>
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Cargando eventos...</p>
+        
+        <div class="form-card">
+            <h2 id="formTitle">➕ Añadir Evento</h2>
+            <form id="eventForm">
+                <input type="hidden" id="eventId">
+                
+                <div class="form-group">
+                    <label>Fecha *</label>
+                    <input type="text" id="fecha" placeholder="ej: 15 Junio" required>
                 </div>
-                <div id="eventsList"></div>
-            </div>
+                
+                <div class="form-group">
+                    <label>Año *</label>
+                    <input type="text" id="año" placeholder="2026" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Título *</label>
+                    <input type="text" id="titulo" placeholder="ej: Presentación en Barcelona" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Lugar *</label>
+                    <input type="text" id="lugar" placeholder="ej: Ateneo Barcelonés" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Descripción *</label>
+                    <textarea id="descripcion" placeholder="Detalles del evento..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Orden *</label>
+                    <input type="number" id="orden" placeholder="1" value="1" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="activo">
+                        <option value="true">✅ Activo</option>
+                        <option value="false">❌ Inactivo</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary" id="submitBtn">Guardar</button>
+                <button type="button" class="btn-secondary" onclick="resetForm()" id="cancelBtn" style="display:none;">Cancelar</button>
+            </form>
+        </div>
+        
+        <div class="events-card">
+            <h2>📋 Eventos</h2>
+            <div id="loading">Cargando...</div>
+            <div id="eventsList"></div>
         </div>
     </div>
 
-    <!-- Supabase JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <script>
-        let supabase = null;
-        let editingEventId = null;
-
-        // Cargar configuración guardada o desde API
-        // Cargar configuración guardada
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedUrl = localStorage.getItem('supabase_url');
-            const savedKey = localStorage.getItem('supabase_key');
-            
-            if (savedUrl && savedKey) {
-                console.log('✅ Credenciales cargadas desde localStorage');
-                document.getElementById('supabaseUrl').value = savedUrl;
-                document.getElementById('supabaseKey').value = savedKey;
-                initSupabase(savedUrl, savedKey);
-            } else {
-                console.log('ℹ️ No hay credenciales guardadas. Por favor configura Supabase.');
-            }
-        });
-
-        // Guardar configuración
-        // Guardar configuración
-        function saveConfig() {
-            const url = document.getElementById('supabaseUrl').value.trim();
-            const key = document.getElementById('supabaseKey').value.trim();
-            
-            if (!url || !key) {
-                showAlert('error', 'Por favor completa ambos campos de configuración');
-                return;
-            }
-            
-            // Validar formato básico de URL
-            if (!url.includes('supabase.co')) {
-                showAlert('error', 'La URL debe ser de Supabase (ejemplo: https://xxxxx.supabase.co)');
-                return;
-            }
-            
-            // Validar formato básico de key (debe ser un JWT)
-            if (!key.startsWith('eyJ')) {
-                showAlert('error', 'La clave parece incorrecta. Debe empezar con "eyJ"');
-                return;
-            }
-            
-            // Guardar en localStorage
-            localStorage.setItem('supabase_url', url);
-            localStorage.setItem('supabase_key', key);
-            
-            // Inicializar
-            initSupabase(url, key);
-            showAlert('success', '✅ Configuración guardada. Conectando a Supabase...');
-        }
-
-        // Inicializar Supabase
-        function initSupabase(url, key) {
-            try {
-                supabase = window.supabase.createClient(url, key);
-                document.getElementById('configSection').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'grid';
-                document.getElementById('statsContainer').style.display = 'grid';
-                loadEvents();
-            } catch (error) {
-                showAlert('error', 'Error al conectar con Supabase: ' + error.message);
-                supabase = null;
-            }
-        }
-
-        // Mostrar alertas
-        function showAlert(type, message) {
-            const alerts = ['successAlert', 'errorAlert', 'infoAlert'];
-            alerts.forEach(id => {
-                document.getElementById(id).style.display = 'none';
-            });
-            
-            const alertId = type === 'success' ? 'successAlert' : type === 'error' ? 'errorAlert' : 'infoAlert';
-            const alert = document.getElementById(alertId);
-            alert.textContent = message;
-            alert.style.display = 'block';
-            
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 5000);
-        }
+        // Credenciales directas (la anon key es pública, es seguro)
+        const SUPABASE_URL = 'https://ktklvnhowupxyyqwghtf.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0a2x2bmhvd3VweHl5cXdnaHRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzNTU5MjAsImV4cCI6MjA5NDkzMTkyMH0.4aUdtuXkU78sSX0PX_yLm9GVsoSoJ2iKmhqs3af4MHI';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        let editingId = null;
 
         // Cargar eventos
         async function loadEvents() {
-            if (!supabase) return;
-            
-            const loading = document.getElementById('loading');
-            const list = document.getElementById('eventsList');
-            
-            loading.classList.add('active');
-            
             try {
-                const { data: eventos, error } = await supabase
+                const { data, error } = await supabase
                     .from('eventos')
                     .select('*')
                     .order('orden', { ascending: true });
 
                 if (error) throw error;
 
-                // Actualizar estadísticas
-                const total = eventos.length;
-                const activos = eventos.filter(e => e.activo).length;
-                const inactivos = total - activos;
-                
-                document.getElementById('totalEvents').textContent = total;
-                document.getElementById('activeEvents').textContent = activos;
-                document.getElementById('inactiveEvents').textContent = inactivos;
+                const list = document.getElementById('eventsList');
+                document.getElementById('loading').style.display = 'none';
 
-                // Renderizar lista
-                if (eventos.length === 0) {
-                    list.innerHTML = `
-                        <div class="empty-state">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                            <p>No hay eventos todavía</p>
-                            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Añade tu primer evento usando el formulario</p>
-                        </div>
-                    `;
-                } else {
-                    list.innerHTML = eventos.map(evento => `
-                        <div class="event-item ${evento.activo ? '' : 'inactive'}">
-                            <div class="event-header">
-                                <div>
-                                    <div class="event-title">${escapeHtml(evento.titulo)}</div>
-                                    <div class="event-date">${escapeHtml(evento.fecha)}, ${escapeHtml(evento.año)}</div>
-                                </div>
-                                <div>
-                                    <span class="badge badge-order">Orden: ${evento.orden}</span>
-                                    <span class="badge ${evento.activo ? 'badge-active' : 'badge-inactive'}">
-                                        ${evento.activo ? '✅ Activo' : '❌ Inactivo'}
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="event-location">📍 ${escapeHtml(evento.lugar)}</div>
-                            <div class="event-description">${escapeHtml(evento.descripcion)}</div>
-                            <div class="event-actions">
-                                <button class="button button-primary button-small" onclick="editEvent(${evento.id})">
-                                    ✏️ Editar
-                                </button>
-                                <button class="button button-secondary button-small" onclick="toggleActive(${evento.id}, ${!evento.activo})">
-                                    ${evento.activo ? '👁️ Ocultar' : '👁️‍🗨️ Mostrar'}
-                                </button>
-                                <button class="button button-danger button-small" onclick="deleteEvent(${evento.id})">
-                                    🗑️ Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    `).join('');
+                if (!data || data.length === 0) {
+                    list.innerHTML = '<p>No hay eventos</p>';
+                    return;
                 }
+
+                list.innerHTML = data.map(e => `
+                    <div class="event-item ${e.activo ? '' : 'inactive'}">
+                        <div class="event-title">${e.titulo}</div>
+                        <div class="event-meta">📅 ${e.fecha}, ${e.año} | 📍 ${e.lugar} | Orden: ${e.orden}</div>
+                        <div class="event-meta">${e.descripcion}</div>
+                        <div class="event-meta">${e.activo ? '✅ Activo' : '❌ Inactivo'}</div>
+                        <div class="event-actions">
+                            <button class="btn-primary" onclick="editEvent(${e.id})">Editar</button>
+                            <button class="btn-secondary" onclick="toggleActive(${e.id}, ${!e.activo})">${e.activo ? 'Ocultar' : 'Mostrar'}</button>
+                            <button class="btn-danger" onclick="deleteEvent(${e.id})">Eliminar</button>
+                        </div>
+                    </div>
+                `).join('');
             } catch (error) {
-                showAlert('error', 'Error al cargar eventos: ' + error.message);
-                list.innerHTML = '<div class="empty-state"><p style="color: var(--color-danger);">Error al cargar eventos</p></div>';
-            } finally {
-                loading.classList.remove('active');
+                showError('Error: ' + error.message);
             }
         }
 
-        // Enviar formulario
+        // Guardar evento
         document.getElementById('eventForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            if (!supabase) {
-                showAlert('error', 'Por favor configura Supabase primero');
-                return;
-            }
-            
-            const eventData = {
-                fecha: document.getElementById('fecha').value.trim(),
-                año: document.getElementById('año').value.trim(),
-                titulo: document.getElementById('titulo').value.trim(),
-                lugar: document.getElementById('lugar').value.trim(),
-                descripcion: document.getElementById('descripcion').value.trim(),
+            const data = {
+                fecha: document.getElementById('fecha').value,
+                año: document.getElementById('año').value,
+                titulo: document.getElementById('titulo').value,
+                lugar: document.getElementById('lugar').value,
+                descripcion: document.getElementById('descripcion').value,
                 orden: parseInt(document.getElementById('orden').value),
                 activo: document.getElementById('activo').value === 'true'
             };
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.disabled = true;
-            submitBtn.textContent = '⏳ Guardando...';
-            
+
             try {
-                if (editingEventId) {
-                    // Actualizar
-                    const { error } = await supabase
-                        .from('eventos')
-                        .update(eventData)
-                        .eq('id', editingEventId);
-                    
+                if (editingId) {
+                    const { error } = await supabase.from('eventos').update(data).eq('id', editingId);
                     if (error) throw error;
-                    showAlert('success', '✅ Evento actualizado correctamente');
+                    showSuccess('✅ Evento actualizado');
                 } else {
-                    // Crear nuevo
-                    const { error } = await supabase
-                        .from('eventos')
-                        .insert([eventData]);
-                    
+                    const { error } = await supabase.from('eventos').insert([data]);
                     if (error) throw error;
-                    showAlert('success', '✅ Evento añadido correctamente');
+                    showSuccess('✅ Evento añadido');
                 }
                 
                 resetForm();
                 loadEvents();
             } catch (error) {
-                showAlert('error', 'Error: ' + error.message);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = editingEventId ? '💾 Guardar Cambios' : '➕ Añadir Evento';
+                showError('Error: ' + error.message);
             }
         });
 
-        // Editar evento
+        // Editar
         async function editEvent(id) {
-            if (!supabase) return;
-            
             try {
-                const { data, error } = await supabase
-                    .from('eventos')
-                    .select('*')
-                    .eq('id', id)
-                    .single();
-                
+                const { data, error } = await supabase.from('eventos').select('*').eq('id', id).single();
                 if (error) throw error;
-                
-                editingEventId = id;
+
+                editingId = id;
                 document.getElementById('fecha').value = data.fecha;
                 document.getElementById('año').value = data.año;
                 document.getElementById('titulo').value = data.titulo;
@@ -743,76 +224,66 @@
                 document.getElementById('orden').value = data.orden;
                 document.getElementById('activo').value = data.activo.toString();
                 
-                document.getElementById('formTitle').textContent = 'Editar Evento';
-                document.getElementById('submitBtn').textContent = '💾 Guardar Cambios';
-                document.getElementById('cancelBtn').style.display = 'inline-flex';
-                
-                // Scroll al formulario
-                document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('formTitle').textContent = '✏️ Editar Evento';
+                document.getElementById('cancelBtn').style.display = 'inline-block';
+                window.scrollTo(0, 0);
             } catch (error) {
-                showAlert('error', 'Error al cargar evento: ' + error.message);
+                showError('Error: ' + error.message);
             }
         }
 
-        // Toggle activo/inactivo
+        // Toggle activo
         async function toggleActive(id, newState) {
-            if (!supabase) return;
-            
             try {
-                const { error } = await supabase
-                    .from('eventos')
-                    .update({ activo: newState })
-                    .eq('id', id);
-                
+                const { error } = await supabase.from('eventos').update({ activo: newState }).eq('id', id);
                 if (error) throw error;
-                
-                showAlert('success', newState ? '✅ Evento activado' : '❌ Evento desactivado');
+                showSuccess(newState ? '✅ Activado' : '❌ Desactivado');
                 loadEvents();
             } catch (error) {
-                showAlert('error', 'Error: ' + error.message);
+                showError('Error: ' + error.message);
             }
         }
 
-        // Eliminar evento
+        // Eliminar
         async function deleteEvent(id) {
-            if (!supabase) return;
-            
-            if (!confirm('¿Estás seguro de que quieres eliminar este evento? Esta acción no se puede deshacer.')) {
-                return;
-            }
+            if (!confirm('¿Eliminar este evento?')) return;
             
             try {
-                const { error } = await supabase
-                    .from('eventos')
-                    .delete()
-                    .eq('id', id);
-                
+                const { error } = await supabase.from('eventos').delete().eq('id', id);
                 if (error) throw error;
-                
-                showAlert('success', '🗑️ Evento eliminado correctamente');
+                showSuccess('🗑️ Evento eliminado');
                 loadEvents();
             } catch (error) {
-                showAlert('error', 'Error al eliminar: ' + error.message);
+                showError('Error: ' + error.message);
             }
         }
 
-        // Reset formulario
+        // Reset form
         function resetForm() {
             document.getElementById('eventForm').reset();
             document.getElementById('orden').value = 1;
-            document.getElementById('activo').value = 'true';
-            editingEventId = null;
-            document.getElementById('formTitle').textContent = 'Añadir Evento';
-            document.getElementById('submitBtn').textContent = '➕ Añadir Evento';
+            editingId = null;
+            document.getElementById('formTitle').textContent = '➕ Añadir Evento';
             document.getElementById('cancelBtn').style.display = 'none';
         }
 
-        // Escape HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        // Alertas
+        function showSuccess(msg) {
+            const el = document.getElementById('successAlert');
+            el.textContent = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 3000);
         }
+
+        function showError(msg) {
+            const el = document.getElementById('errorAlert');
+            el.textContent = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 5000);
+        }
+
+        // Cargar al inicio
+        loadEvents();
     </script>
 </body>
 </html>
