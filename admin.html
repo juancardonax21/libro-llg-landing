@@ -514,28 +514,8 @@
         let editingEventId = null;
 
         // Cargar configuración guardada o desde API
-        window.addEventListener('DOMContentLoaded', async () => {
-            // Primero intentar cargar desde la API de Vercel (variables de entorno)
-            try {
-                const response = await fetch('/api/supabase-config');
-                if (response.ok) {
-                    const config = await response.json();
-                    
-                    if (config.url && config.key) {
-                        console.log('✅ Credenciales cargadas desde variables de entorno de Vercel');
-                        document.getElementById('supabaseUrl').value = config.url;
-                        document.getElementById('supabaseKey').value = config.key;
-                        
-                        // Auto-inicializar
-                        initSupabase(config.url, config.key);
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('ℹ️ Variables de entorno no configuradas, usando localStorage');
-            }
-            
-            // Fallback: cargar desde localStorage
+        // Cargar configuración guardada
+        window.addEventListener('DOMContentLoaded', () => {
             const savedUrl = localStorage.getItem('supabase_url');
             const savedKey = localStorage.getItem('supabase_key');
             
@@ -544,11 +524,14 @@
                 document.getElementById('supabaseUrl').value = savedUrl;
                 document.getElementById('supabaseKey').value = savedKey;
                 initSupabase(savedUrl, savedKey);
+            } else {
+                console.log('ℹ️ No hay credenciales guardadas. Por favor configura Supabase.');
             }
         });
 
         // Guardar configuración
-        async function saveConfig() {
+        // Guardar configuración
+        function saveConfig() {
             const url = document.getElementById('supabaseUrl').value.trim();
             const key = document.getElementById('supabaseKey').value.trim();
             
@@ -557,44 +540,25 @@
                 return;
             }
             
-            // Validar formato de URL
+            // Validar formato básico de URL
             if (!url.includes('supabase.co')) {
                 showAlert('error', 'La URL debe ser de Supabase (ejemplo: https://xxxxx.supabase.co)');
                 return;
             }
             
-            // Validar formato de key (debe ser un JWT)
+            // Validar formato básico de key (debe ser un JWT)
             if (!key.startsWith('eyJ')) {
                 showAlert('error', 'La clave parece incorrecta. Debe empezar con "eyJ"');
                 return;
             }
             
-            showAlert('info', '⏳ Verificando conexión con Supabase...');
+            // Guardar en localStorage
+            localStorage.setItem('supabase_url', url);
+            localStorage.setItem('supabase_key', key);
             
-            // Intentar conectar y verificar
-            try {
-                const testClient = window.supabase.createClient(url, key);
-                
-                // Probar la conexión intentando leer la tabla
-                const { data, error } = await testClient
-                    .from('eventos')
-                    .select('count', { count: 'exact', head: true });
-                
-                if (error) {
-                    throw new Error('No se pudo conectar a la tabla "eventos". Verifica que:\n1. Hayas ejecutado el script SQL\n2. La tabla "eventos" exista\n3. Las credenciales sean correctas\n\nError: ' + error.message);
-                }
-                
-                // Conexión exitosa
-                localStorage.setItem('supabase_url', url);
-                localStorage.setItem('supabase_key', key);
-                
-                initSupabase(url, key);
-                showAlert('success', '✅ Conexión exitosa! Cargando eventos...');
-                
-            } catch (error) {
-                showAlert('error', 'Error de conexión: ' + error.message);
-                console.error('Error completo:', error);
-            }
+            // Inicializar
+            initSupabase(url, key);
+            showAlert('success', '✅ Configuración guardada. Conectando a Supabase...');
         }
 
         // Inicializar Supabase
