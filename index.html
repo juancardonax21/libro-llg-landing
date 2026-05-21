@@ -1010,7 +1010,9 @@
     <!-- Upcoming Events Section -->
     <section class="upcoming-events-section">
         <h2 class="section-title">Próximos eventos</h2>
-        <div class="events-timeline">
+        <div class="events-timeline" id="eventsTimeline">
+            <!-- Los eventos se cargarán desde Supabase si está configurado -->
+            <!-- Fallback: eventos estáticos -->
             <div class="event-card">
                 <div class="event-date">
                     <span class="date-day">31 Mayo - 16 Junio</span>
@@ -1063,7 +1065,7 @@
                 gemmamartinpiquet@x21.consulting
             </p>
             <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.5;">
-                © 2026 X21 Consulting. Todos los derechos reservados.
+                © 2026 Editorial Temple. Todos los derechos reservados.
             </p>
         </div>
     </footer>
@@ -1177,6 +1179,84 @@
 
             updateButtons();
         }
+
+        // ========================================
+        // CARGA DE EVENTOS DESDE SUPABASE (OPCIONAL)
+        // ========================================
+        // Si tienes Supabase configurado, los eventos se cargarán dinámicamente
+        // Si no, se mostrarán los eventos estáticos que ya están en el HTML
+        
+        (async function loadEventsFromSupabase() {
+            // Verificar si hay configuración de Supabase guardada
+            const supabaseUrl = localStorage.getItem('supabase_url');
+            const supabaseKey = localStorage.getItem('supabase_key');
+            
+            // Si no hay configuración, usar eventos estáticos
+            if (!supabaseUrl || !supabaseKey) {
+                console.log('Supabase no configurado - usando eventos estáticos');
+                return;
+            }
+            
+            try {
+                // Intentar cargar Supabase
+                if (typeof window.supabase === 'undefined') {
+                    // Cargar librería de Supabase dinámicamente
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                    script.onload = initSupabaseAndLoadEvents;
+                    document.head.appendChild(script);
+                } else {
+                    initSupabaseAndLoadEvents();
+                }
+                
+                async function initSupabaseAndLoadEvents() {
+                    try {
+                        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+                        
+                        // Cargar eventos
+                        const { data: eventos, error } = await supabase
+                            .from('eventos')
+                            .select('*')
+                            .eq('activo', true)
+                            .order('orden', { ascending: true });
+                        
+                        if (error) throw error;
+                        
+                        // Si hay eventos, reemplazar el HTML
+                        if (eventos && eventos.length > 0) {
+                            const timeline = document.getElementById('eventsTimeline');
+                            timeline.innerHTML = eventos.map(evento => `
+                                <div class="event-card">
+                                    <div class="event-date">
+                                        <span class="date-day">${escapeHtml(evento.fecha)}</span>
+                                        <span class="date-year">${escapeHtml(evento.año)}</span>
+                                    </div>
+                                    <div class="event-info">
+                                        <h3>${escapeHtml(evento.titulo)}</h3>
+                                        <p class="event-venue">${escapeHtml(evento.lugar)}</p>
+                                        <p class="event-description">${escapeHtml(evento.descripcion)}</p>
+                                    </div>
+                                </div>
+                            `).join('');
+                            
+                            console.log(`✅ ${eventos.length} eventos cargados desde Supabase`);
+                        }
+                    } catch (error) {
+                        console.warn('Error al cargar eventos desde Supabase:', error);
+                        // Continuar con eventos estáticos
+                    }
+                }
+            } catch (error) {
+                console.warn('Error al inicializar Supabase:', error);
+                // Continuar con eventos estáticos
+            }
+            
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        })();
     </script>
 </body>
 </html>
