@@ -613,6 +613,19 @@
             font-size: 0.95rem;
         }
 
+.event-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: var(--color-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.event-link:hover {
+    color: var(--color-accent);
+}
+
         /* About Section */
         .about-section {
             background: white;
@@ -1218,18 +1231,19 @@
                         if (eventos && eventos.length > 0) {
                             const timeline = document.getElementById('eventsTimeline');
                             timeline.innerHTML = eventos.map(evento => `
-                                <div class="event-card">
-                                    <div class="event-date">
-                                        <span class="date-day">${escapeHtml(evento.fecha)}</span>
-                                        <span class="date-year">${escapeHtml(evento.año)}</span>
-                                    </div>
-                                    <div class="event-info">
-                                        <h3>${escapeHtml(evento.titulo)}</h3>
-                                        <p class="event-venue">${escapeHtml(evento.lugar)}</p>
-                                        <p class="event-description">${escapeHtml(evento.descripcion)}</p>
-                                    </div>
-                                </div>
-                            `).join('');
+    <div class="event-card">
+        <div class="event-date">
+            <span class="date-day">${escapeHtml(evento.fecha)}</span>
+            <span class="date-year">${escapeHtml(evento.año)}</span>
+        </div>
+        <div class="event-info">
+            <h3>${escapeHtml(evento.titulo)}</h3>
+            <p class="event-venue">${escapeHtml(evento.lugar)}</p>
+            <p class="event-description">${escapeHtml(evento.descripcion)}</p>
+            ${evento.link_externo ? `<a href="${escapeHtml(evento.link_externo)}" target="_blank" class="event-link">Más información →</a>` : ''}
+        </div>
+    </div>
+`).join('');
                             
                             console.log(`✅ ${eventos.length} eventos cargados desde Supabase`);
                         }
