@@ -753,9 +753,103 @@
             background: var(--color-accent);
             margin: 2rem auto;
         }
+
+/* Banner aforo completo */
+.aforo-banner {
+    background: linear-gradient(135deg, #8b6914 0%, #c49a3d 100%);
+    color: white;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.aforo-banner .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.banner-icon {
+    font-size: 1.5rem;
+}
+
+.banner-text {
+    font-size: 1rem;
+}
+
+.banner-text strong {
+    font-weight: 700;
+}
+
+.banner-button {
+    background: white;
+    color: #8b6914;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.banner-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+}
+
+@media (max-width: 768px) {
+    .aforo-banner .container {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .banner-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Evento streaming destacado */
+.event-card:first-child {
+    background: linear-gradient(135deg, #8b6914 0%, #c49a3d 100%);
+    color: white;
+    border: 3px solid #ffd700;
+}
+
+.event-card:first-child .event-date,
+.event-card:first-child .event-info h3,
+.event-card:first-child .event-info p {
+    color: white;
+}
+
+.event-card:first-child .event-link {
+    background: white;
+    color: #8b6914;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 700;
+}
+
     </style>
 </head>
 <body>
+      <!-- Banner de aforo completo -->
+    <div class="aforo-banner">
+        <div class="container">
+            <span class="banner-icon">🎥</span>
+            <span class="banner-text">
+                <strong>Aforo completo</strong> — Sigue la presentación en directo por streaming
+            </span>
+            <a href="https://tu-link-streaming.com" class="banner-button">Ver streaming →</a>
+        </div>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
