@@ -788,6 +788,16 @@
     font-weight: 700;
 }
 
+.banner-countdown {
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-width: 200px;
+    text-align: center;
+}
+
 .banner-button {
     background: white;
     color: #8b6914;
@@ -796,6 +806,9 @@
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .banner-button:hover {
@@ -839,16 +852,21 @@
     </style>
 </head>
 <body>
-      <!-- Banner de aforo completo -->
-    <div class="aforo-banner">
-        <div class="container">
-            <span class="banner-icon">🎥</span>
-            <span class="banner-text">
-                <strong>Aforo completo</strong> — Sigue la presentación en directo por streaming
-            </span>
-            <a href="https://tu-link-streaming.com" class="banner-button">Ver streaming →</a>
+<!-- Banner de aforo completo -->
+<div class="aforo-banner">
+    <div class="container">
+        <span class="banner-icon">🎥</span>
+        <span class="banner-text">
+            <strong>Aforo completo</strong> — Streaming en directo desde Instagram
+        </span>
+        <div class="banner-countdown">
+            <div id="countdown"></div>
         </div>
+        <a href="https://instagram.com/leopoldolopezgil" target="_blank" class="banner-button">
+            <span>📱</span> Ir a Instagram
+        </a>
     </div>
+</div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1361,5 +1379,40 @@
             }
         })();
     </script>
+<script>
+// Cuenta atrás para el streaming
+(function() {
+    // CONFIGURA AQUÍ: Fecha y hora del streaming (formato: 'YYYY-MM-DD HH:MM:SS')
+    const streamingDate = new Date('2026-05-29 19:00:00').getTime();
+    
+    const countdown = document.getElementById('countdown');
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = streamingDate - now;
+        
+        if (distance < 0) {
+            countdown.innerHTML = '🔴 EN VIVO AHORA';
+            return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        if (days > 0) {
+            countdown.innerHTML = `Comienza en ${days}d ${hours}h ${minutes}m`;
+        } else if (hours > 0) {
+            countdown.innerHTML = `Comienza en ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+            countdown.innerHTML = `Comienza en ${minutes}m ${seconds}s`;
+        }
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+})();
+</script>
 </body>
 </html>
