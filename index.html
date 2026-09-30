@@ -926,14 +926,14 @@
         }
 
         /* En inglés, el PDF en inglés va primero y destacado */
-        html[lang="en"] .press-downloads a:last-child {
+        html[lang="en"] .press-downloads .dl-en {
             order: -1;
             background: var(--color-secondary);
             color: white;
             box-shadow: 0 4px 15px rgba(139, 105, 20, 0.3);
         }
 
-        html[lang="en"] .press-downloads a:first-child {
+        html[lang="en"] .press-downloads .dl-es {
             background: transparent;
             border: 2px solid var(--color-secondary);
             color: var(--color-secondary);
@@ -1785,10 +1785,11 @@ section[id] {
     <!-- Press Section -->
     <section class="press-section" id="prensa">
         <h2 class="section-title" data-i18n="press.title">Prensa</h2>
-        <p class="press-intro" data-i18n="press.intro">Descarga la reseña de prensa con información sobre el libro, el autor, el contexto histórico y la ficha técnica.</p>
+        <p class="press-intro" data-i18n="press.intro">Descarga la reseña de prensa con información sobre el libro, el autor, el contexto histórico y la ficha técnica, y el discurso de Leopoldo López Gil en el Parlamento Europeo.</p>
         <div class="press-downloads">
-            <a href="assets/docs/nota.pdf" download class="cta-button" data-i18n="press.es">Reseña de prensa · Español (PDF)</a>
-            <a href="assets/docs/press-kit-en.pdf" download class="cta-button cta-outline" data-i18n="press.en">Press kit · English (PDF)</a>
+            <a href="assets/docs/nota.pdf" download class="cta-button dl-es" data-i18n="press.es">Reseña de prensa · Español (PDF)</a>
+            <a href="assets/docs/press-kit-en.pdf" download class="cta-button cta-outline dl-en" data-i18n="press.en">Press kit · English (PDF)</a>
+            <a href="assets/bruselas/discurso-llg-parlamento-europeo.pdf" download class="cta-button cta-outline dl-speech" data-i18n="press.speech">Discurso en el Parlamento Europeo (PDF)</a>
         </div>
         <div class="press-contact">
             <p class="press-contact-label" data-i18n="press.contact">Contacto de prensa</p>
@@ -1842,9 +1843,10 @@ section[id] {
                 "nav.events": "Events",
                 "nav.press": "Press",
                 "press.title": "Press",
-                "press.intro": "Download the press kit with information about the book, the author, the historical context and the book details.",
+                "press.intro": "Download the press kit with information about the book, the author, the historical context and the book details, as well as the speech Leopoldo López Gil delivered at the European Parliament.",
                 "press.es": "Reseña de prensa · Español (PDF)",
                 "press.en": "Press kit · English (PDF)",
+                "press.speech": "Speech at the European Parliament (Spanish, PDF)",
                 "press.contact": "Press contact",
                 "footer.rights": "© 2026 Leopoldo López Gil. All rights reserved.",
                 "footer.credit": "Communications strategy",
@@ -1861,7 +1863,7 @@ section[id] {
                 "hero.subtitle": "<em>Life Goes On, the Struggle Continues</em> · Four generations committed to Venezuelan democracy",
                 "pe.title": "Presentation at the European Parliament",
                 "pe.videoTitle": "Video of the event",
-                "pe.speechPdf": "Download the speech (PDF)",
+                "pe.speechPdf": "Download the speech (Spanish, PDF)",
                 "lb.close": "Close",
                 "pe.kicker": "Brussels · Past event",
                 "pe.date": "September 30th, 2026",
