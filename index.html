@@ -526,9 +526,35 @@
             margin-top: 1.5rem;
         }
 
-        .ateneo-logo img {
-            filter: brightness(0) invert(1);
+        .event-kicker {
+            display: inline-block;
+            background: var(--color-accent);
+            color: white;
+            padding: 0.35rem 1.1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-intro {
+            max-width: 750px;
+            margin: 2rem auto 0;
+            text-align: left;
+            font-weight: 300;
             opacity: 0.9;
+        }
+
+        .event-intro p {
+            margin-bottom: 1rem;
+        }
+
+        .event-speaker {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-top: -0.5rem;
         }
 
         /* Upcoming Events Section */
@@ -654,6 +680,22 @@
             line-height: 1.8;
         }
 
+        .about-details {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .about-cover {
+            width: 100%;
+            height: auto;
+            border-radius: 3px;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(139, 105, 20, 0.1);
+        }
+
         .about-list {
             list-style: none;
             padding: 0;
@@ -716,6 +758,15 @@
             .about-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
+            }
+
+            .about-details {
+                grid-template-columns: 1fr;
+                justify-items: center;
+            }
+
+            .about-cover {
+                max-width: 200px;
             }
 
             .gallery-grid {
@@ -856,11 +907,10 @@
 <div class="aforo-banner">
     <div class="container">
         <span class="banner-text">
-            <strong>EVENTO FINALIZADO</strong> — Ver acto de presentación 
+            <strong>HOY, 30 DE SEPTIEMBRE</strong> — Presentación del libro en el Parlamento Europeo, Bruselas
         </span>
-   
 
-        <a href="https://www.youtube.com/watch?v=xsfOM3eZF7E" target="_blank" class="banner-button">▶ Ver en YouTube</a>
+        <a href="#bruselas" class="banner-button">Ver detalles</a>
     </div>
 </div>
 
@@ -871,10 +921,35 @@
                 <h1>La vida sigue, la lucha continúa</h1>
                 <p class="subtitle">Cuatro generaciones comprometidas con la democracia venezolana</p>
                 <p class="author">Leopoldo López Gil</p>
-                <a href="#eventos" class="cta-button">Próximos encuentros con el autor</a>
+                <a href="#bruselas" class="cta-button">Presentación en el Parlamento Europeo</a>
             </div>
             <div class="hero-image">
                 <img src="assets/images/portada-libro.jpg" alt="Portada del libro La vida sigue, la lucha continúa" class="book-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Presentación en el Parlamento Europeo -->
+    <section class="event-section" id="bruselas">
+        <span class="event-kicker">Hoy · Bruselas</span>
+        <h2 class="section-title">Presentación en el Parlamento Europeo</h2>
+
+        <div class="event-details">
+            <p class="event-highlight">30 de septiembre de 2026</p>
+
+            <p class="event-location">Biblioteca del Parlamento Europeo</p>
+            <p class="event-location">Bruselas</p>
+
+            <div class="decorative-line"></div>
+
+            <p class="event-location">Presentado por Esteban González Pons</p>
+            <p class="event-speaker">Eurodiputado y vicepresidente del Parlamento Europeo</p>
+            <p class="event-location">Con la participación de Antonio López Istúriz</p>
+            <p class="event-speaker">Eurodiputado</p>
+
+            <div class="event-intro">
+                <p>Leopoldo López Gil presenta en el Parlamento Europeo su libro <em>La vida sigue, la lucha continúa</em>. El encuentro tiene un significado especial para el autor, que regresa a la institución de la que formó parte como eurodiputado entre 2019 y 2024.</p>
+                <p>El acto es una ocasión para reflexionar sobre los vínculos entre Europa y América Latina y sobre los retos políticos, sociales y educativos que afrontan las nuevas generaciones. López Gil abordará algunos de los grandes temas de la obra: la historia de Venezuela, la memoria y el compromiso entre generaciones, el papel de la educación en el desarrollo y la reconstrucción de los países, y la defensa de la democracia y del Estado de derecho.</p>
             </div>
         </div>
     </section>
@@ -1072,6 +1147,8 @@
                 <p>Con material hemerográfico histórico de la Hemeroteca Nacional de Caracas, el libro documenta cómo tres generaciones participaron activamente en la construcción democrática del país.</p>
             </div>
             <div class="about-details">
+                <img src="assets/images/portada-libro.jpg" alt="Portada del libro La vida sigue, la lucha continúa" class="about-cover">
+                <div class="about-text">
                 <h3>Ficha técnica</h3>
                 <ul class="about-list">
                     <li><strong>Editorial:</strong> Temple, S.L.</li>
@@ -1081,66 +1158,27 @@
                     <li><strong>Encuadernación:</strong> Tapa dura</li>
                     <li><strong>Primera edición:</strong> Abril 2026</li>
                 </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Event Section -->
-  <section class="event-section" id="evento">
-    <h2 class="section-title">Presentación del libro</h2>
-
-    <div class="event-details">
-        <p class="event-highlight">
-            29 de mayo de 2026 · 19:00 horas
-        </p>
-
-        <div class="ateneo-logo">
-            <img src="assets/images/logo-ateneo-madrid.png"
-                 alt="Ateneo de Madrid"
-                 style="max-width: 200px; margin: 1.5rem auto; display: block;">
-        </div>
-
-        <p class="event-location">Ateneo de Madrid</p>
-        <p class="event-location">Calle del Prado, 21, 28014 Madrid</p>
-
-        <p style="margin-top: 0.8rem; font-size: 0.9rem; opacity: 0.8;">
-            Aforo reducido · SRC
-        </p>
-
-        <div class="decorative-line"></div>
-
-        <p class="event-location" style="margin-top: 1.5rem;">
-            Con las intervenciones de:
-        </p>
-
-        <p class="event-location">
-            Vidal Pérez Herrero · José Manuel García-Margallo · Paula Quinteros
-        </p>
-
-        <p style="margin-top: 2rem; font-size: 0.95rem; opacity: 0.9;">
-            <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:800px;margin:2rem auto;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.3);">
-    <iframe src="https://www.youtube.com/embed/xsfOM3eZF7E" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;"></iframe>
-</div><br>
-        </p>
-    </div>
-
-</section>
-
     <!-- Upcoming Events Section -->
     <section class="upcoming-events-section" id="eventos">
-        <h2 class="section-title">Próximos eventos</h2>
+        <h2 class="section-title">Encuentros con el autor</h2>
         <div class="events-timeline" id="eventsTimeline">
             <!-- Los eventos se cargarán desde Supabase si está configurado -->
             <!-- Fallback: eventos estáticos -->
             <div class="event-card">
                 <div class="event-date">
-                    <span class="date-day">31 Mayo - 16 Junio</span>
+                    <span class="date-day">30 Septiembre</span>
                     <span class="date-year">2026</span>
                 </div>
                 <div class="event-info">
-                    <h3>Feria del Libro de Madrid</h3>
-                    <p class="event-venue">Parque del Retiro, Madrid</p>
-                    <p class="event-description">Firma de ejemplares en el stand de la editorial. Horarios y detalles próximamente.</p>
+                    <h3>Presentación en el Parlamento Europeo</h3>
+                    <p class="event-venue">Biblioteca del Parlamento Europeo, Bruselas</p>
+                    <p class="event-description">Presentado por Esteban González Pons, eurodiputado y vicepresidente del Parlamento Europeo, con la participación del eurodiputado Antonio López Istúriz.</p>
+                    <a href="#bruselas" class="event-link">Más información →</a>
                 </div>
             </div>
             <div class="event-card">
@@ -1149,20 +1187,21 @@
                     <span class="date-year">2026</span>
                 </div>
                 <div class="event-info">
-                    <h3>Presentaciones en otras ciudades</h3>
-                    <p class="event-venue">Por confirmar</p>
-                    <p class="event-description">Próximamente anunciaremos nuevas fechas de presentación en diferentes ciudades de España y Europa.</p>
+                    <h3>Feria del Libro de Madrid</h3>
+                    <p class="event-venue">Parque del Retiro, Madrid</p>
+                    <p class="event-description">Firma de ejemplares del libro.</p>
                 </div>
             </div>
             <div class="event-card">
                 <div class="event-date">
-                    <span class="date-day">Verano</span>
+                    <span class="date-day">29 Mayo</span>
                     <span class="date-year">2026</span>
                 </div>
                 <div class="event-info">
-                    <h3>Encuentros con lectores</h3>
-                    <p class="event-venue">Varios espacios culturales</p>
-                    <p class="event-description">Ciclo de conversatorios sobre memoria, democracia y el futuro de Venezuela.</p>
+                    <h3>Presentación en el Ateneo de Madrid</h3>
+                    <p class="event-venue">Ateneo de Madrid</p>
+                    <p class="event-description">Con las intervenciones de Vidal Pérez Herrero, José Manuel García-Margallo y Paula Quinteros.</p>
+                    <a href="https://www.youtube.com/watch?v=xsfOM3eZF7E" target="_blank" class="event-link">Ver en YouTube →</a>
                 </div>
             </div>
         </div>
@@ -1370,40 +1409,5 @@
             }
         })();
     </script>
-<script>
-// Cuenta atrás para el streaming
-(function() {
-    // CONFIGURA AQUÍ: Fecha y hora del streaming (formato: 'YYYY-MM-DD HH:MM:SS')
-    const streamingDate = new Date('2026-05-29 19:00:00').getTime();
-    
-    const countdown = document.getElementById('countdown');
-    
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = streamingDate - now;
-        
-        if (distance < 0) {
-            countdown.innerHTML = '🔴 EN VIVO AHORA';
-            return;
-        }
-        
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
-        if (days > 0) {
-            countdown.innerHTML = `Comienza en ${days}d ${hours}h ${minutes}m`;
-        } else if (hours > 0) {
-            countdown.innerHTML = `Comienza en ${hours}h ${minutes}m ${seconds}s`;
-        } else {
-            countdown.innerHTML = `Comienza en ${minutes}m ${seconds}s`;
-        }
-    }
-    
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-})();
-</script>
 </body>
 </html>
