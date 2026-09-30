@@ -1,0 +1,44 @@
+{
+  "video_youtube_id": "",
+  "fotos": [
+    {
+      "archivo": "bx-01.jpg",
+      "pie_es": "Un momento de emoción durante la presentación.",
+      "pie_en": "A moment of emotion during the presentation."
+    },
+    {
+      "archivo": "bx-02.jpg",
+      "pie_es": "En la Biblioteca del Parlamento Europeo.",
+      "pie_en": "At the European Parliament Library."
+    },
+    {
+      "archivo": "bx-03.jpg",
+      "pie_es": "«La vida sigue, la lucha continúa», en la sala de la presentación.",
+      "pie_en": "La vida sigue, la lucha continúa at the presentation venue."
+    },
+    {
+      "archivo": "bx-04.jpg",
+      "pie_es": "Entrega de un ejemplar del libro.",
+      "pie_en": "Presenting a copy of the book."
+    },
+    {
+      "archivo": "bx-05.jpg",
+      "pie_es": "Hojeando el libro en la Biblioteca del Parlamento Europeo.",
+      "pie_en": "Leafing through the book at the European Parliament Library."
+    },
+    {
+      "archivo": "bx-06.jpg",
+      "pie_es": "Un momento de la conversación ante el público.",
+      "pie_en": "A moment from the conversation with the audience."
+    },
+    {
+      "archivo": "bx-07.jpg",
+      "pie_es": "En el Parlamento Europeo, Bruselas, 30 de septiembre de 2026.",
+      "pie_en": "At the European Parliament, Brussels, September 30th, 2026."
+    }
+  ],
+  "discurso": {
+    "pdf_es": "",
+    "pdf_en": ""
+  }
+}
