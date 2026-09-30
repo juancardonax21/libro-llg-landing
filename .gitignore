@@ -29,3 +29,6 @@ node_modules/
 # Archivos temporales
 tmp/
 temp/
+
+# Configuración local de Claude Code
+.claude/
