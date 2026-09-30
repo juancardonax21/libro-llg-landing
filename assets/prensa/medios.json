@@ -1,0 +1,92 @@
+{
+  "impactos": [
+    {
+      "medio": "El País",
+      "fecha": "2026-05-29",
+      "tipo": "entrevista",
+      "soporte": "papel_digital",
+      "destacado": true,
+      "titular": "Leopoldo López Gil, exdiputado del Parlamento Europeo: “Venezuela no está lista para ir a elecciones”",
+      "url": "https://elpais.com/internacional/2026-05-29/leopoldo-lopez-gil-exdiputado-del-parlamento-europeo-venezuela-no-esta-lista-para-ir-a-elecciones.html",
+      "imagen": "foto-elpais.jpg"
+    },
+    {
+      "medio": "ABC",
+      "fecha": "2026-06-03",
+      "tipo": "entrevista",
+      "soporte": "papel_digital",
+      "destacado": true,
+      "titular": "Leopoldo López Gil: «No entiendo a Trump, Delcy Rodríguez es tan ilegítima como Maduro para presidir Venezuela»",
+      "url": "https://www.abc.es/internacional/leopoldo-lopez-gil-entiendo-trump-delcy-rodriguez-20260602015648-nt.html",
+      "imagen": "foto-abc.jpg"
+    },
+    {
+      "medio": "El Español",
+      "fecha": "2026-05-31",
+      "tipo": "entrevista",
+      "soporte": "papel_digital",
+      "destacado": true,
+      "titular": "Leopoldo López Gil: \"Zapatero fue a visitar a mi hijo a la cárcel acompañado de Delcy. Querían que frenara las movilizaciones\"",
+      "url": "https://www.elespanol.com/espana/politica/20260531/leopoldo-lopez-gil-zapatero-visitar-hijo-carcel-acompanado-delcy-querian-frenara-movilizaciones/1003744263225_0.html",
+      "imagen": "foto-elespanol.jpg"
+    },
+    {
+      "medio": "La Razón",
+      "fecha": "2026-06-08",
+      "tipo": "entrevista",
+      "soporte": "papel_digital",
+      "destacado": true,
+      "titular": "Leopoldo López Gil: \"La democracia en Venezuela se va a recuperar con o sin Trump\"",
+      "url": "https://www.larazon.es/internacional/leopoldo-lopez-gil-democracia-venezuela-recuperar-trump_202606086a2606139c159d030feb7a14.html",
+      "imagen": "foto-larazon.jpg"
+    },
+    {
+      "medio": "The Objective",
+      "fecha": "2026-05-29",
+      "tipo": "reportaje",
+      "soporte": "digital",
+      "titular": "Leopoldo López Gil, exeurodiputado: «España ha estado a la altura con el pueblo venezolano»",
+      "url": "https://theobjective.com/espana/2026-05-29/leopoldo-lopez-gil-espana-altura-venezolanos/"
+    },
+    {
+      "medio": "The Objective · El Purgatorio",
+      "fecha": "2026-06-26",
+      "tipo": "podcast",
+      "soporte": "audio",
+      "titular": "El purgatorio de Leopoldo López Gil",
+      "url": "https://theobjective.com/podcasts/el-purgatorio/podcast-el-purgatorio-leopoldo-lopez-gil/"
+    },
+    {
+      "medio": "ESdiario TV",
+      "fecha": "2026-06-06",
+      "tipo": "entrevista",
+      "soporte": "video",
+      "titular": "Leopoldo López Gil: testimonio de una saga familiar y una lucha por la democracia",
+      "url": "https://www.youtube.com/watch?v=3iLQHIqtXBk"
+    },
+    {
+      "medio": "Capital Radio · El Balance",
+      "fecha": "2026-06-12",
+      "tipo": "entrevista",
+      "soporte": "radio",
+      "titular": "Entrevista con Federico Quevedo",
+      "url": "https://www.capitalradio.es/programas/el-balance"
+    },
+    {
+      "medio": "El Nacional (Venezuela)",
+      "fecha": "2026-05-30",
+      "tipo": "noticia",
+      "soporte": "digital",
+      "titular": "Leopoldo López Gil presentó en Madrid su libro La vida sigue, la lucha continúa",
+      "url": "https://www.elnacional.com/2026/05/leopoldo-lopez-gil-presento-en-madrid-su-libro-la-vida-sigue-la-lucha-continua/"
+    },
+    {
+      "medio": "Estrella Digital",
+      "fecha": "2026-05-30",
+      "tipo": "noticia",
+      "soporte": "digital",
+      "titular": "Leopoldo López Gil alaba el apoyo de España a Venezuela",
+      "url": "https://www.estrelladigital.es/articulo/noticias-en-la-red/leopoldo-lopez-gil-alaba-apoyo-espana-venezuela/20260530003001446974.html"
+    }
+  ]
+}

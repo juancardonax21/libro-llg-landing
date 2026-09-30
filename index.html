@@ -925,6 +925,164 @@
             color: white;
         }
 
+        /* En los medios */
+        .media-coverage {
+            max-width: 1000px;
+            margin: 0 auto 3.5rem;
+            text-align: left;
+        }
+
+        .media-title {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-weight: 600;
+            font-size: 1.9rem;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .media-featured {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .media-card {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 0 1.75rem 1.5rem;
+            background: white;
+            border-top: 3px solid var(--color-accent);
+            border-radius: 4px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+            color: inherit;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .media-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .media-clip {
+            margin: 0 -1.75rem 1.25rem;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #f1ede5;
+            border-bottom: 1px solid rgba(139, 105, 20, 0.15);
+        }
+
+        .media-clip img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+            filter: saturate(0.9);
+            transition: transform 0.5s ease;
+        }
+
+        .media-card:hover .media-clip img {
+            transform: scale(1.03);
+        }
+
+        .media-clip-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary);
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 2.6rem;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 1px;
+        }
+
+        .media-outlet {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: var(--color-primary);
+        }
+
+        .media-meta {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+            margin: 0.25rem 0 0.9rem;
+        }
+
+        .media-headline {
+            font-family: var(--font-display);
+            font-style: italic;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            color: var(--color-text);
+            flex: 1;
+        }
+
+        .media-more {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-secondary);
+        }
+
+        .media-list {
+            list-style: none;
+            border-top: 1px solid rgba(139, 105, 20, 0.15);
+        }
+
+        .media-list a {
+            display: grid;
+            grid-template-columns: 210px 1fr auto;
+            gap: 1.25rem;
+            align-items: baseline;
+            padding: 0.9rem 0.25rem;
+            border-bottom: 1px solid rgba(139, 105, 20, 0.15);
+            color: inherit;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .media-list a:hover {
+            background: rgba(196, 154, 61, 0.06);
+        }
+
+        .media-list .media-outlet {
+            font-size: 1.05rem;
+        }
+
+        .media-list .media-meta {
+            margin: 0.15rem 0 0;
+        }
+
+        .media-list .media-headline {
+            font-size: 1.3rem;
+            line-height: 1.35;
+        }
+
+        .media-list .media-more {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .media-featured {
+                grid-template-columns: 1fr;
+            }
+
+            .media-list a {
+                grid-template-columns: 1fr;
+                gap: 0.3rem;
+            }
+        }
+
         /* En inglés, el PDF en inglés va primero y destacado */
         html[lang="en"] .press-downloads .dl-en {
             order: -1;
@@ -1791,6 +1949,13 @@ section[id] {
             <a href="assets/docs/press-kit-en.pdf" download class="cta-button cta-outline dl-en" data-i18n="press.en">Press kit · English (PDF)</a>
             <a href="assets/bruselas/discurso-llg-parlamento-europeo.pdf" download class="cta-button cta-outline dl-speech" data-i18n="press.speech">Discurso en el Parlamento Europeo (PDF)</a>
         </div>
+        <!-- En los medios: se rellena desde assets/prensa/medios.json -->
+        <div class="media-coverage" id="mediaCoverage" hidden>
+            <h3 class="media-title" data-i18n="media.title">En los medios</h3>
+            <div class="media-featured" id="mediaFeatured"></div>
+            <ul class="media-list" id="mediaList"></ul>
+        </div>
+
         <div class="press-contact">
             <p class="press-contact-label" data-i18n="press.contact">Contacto de prensa</p>
             <p class="press-contact-name">Gemma Martín Piquet</p>
@@ -1847,6 +2012,7 @@ section[id] {
                 "press.es": "Reseña de prensa · Español (PDF)",
                 "press.en": "Press kit · English (PDF)",
                 "press.speech": "Speech at the European Parliament (Spanish, PDF)",
+                "media.title": "In the media",
                 "press.contact": "Press contact",
                 "footer.rights": "© 2026 Leopoldo López Gil. All rights reserved.",
                 "footer.credit": "Communications strategy",
@@ -2108,6 +2274,90 @@ section[id] {
             fetch(BASE + 'evento.json', { cache: 'no-cache' })
                 .then(r => r.ok ? r.json() : null)
                 .then(json => { data = json; renderAll(); })
+                .catch(() => {});
+        })();
+    </script>
+    <script>
+        // ========================================
+        // EN LOS MEDIOS (assets/prensa/medios.json)
+        // ========================================
+        (function () {
+            const box = document.getElementById('mediaCoverage');
+            let items = [];
+            let lang = document.documentElement.lang === 'en' ? 'en' : 'es';
+
+            const L = {
+                es: { entrevista: 'Entrevista', reportaje: 'Reportaje', noticia: 'Noticia', podcast: 'Podcast',
+                      papel_digital: 'Papel y digital', digital: 'Digital', video: 'Vídeo', radio: 'Radio', audio: 'Audio',
+                      read: 'Leer →', watch: 'Ver →', listen: 'Escuchar →' },
+                en: { entrevista: 'Interview', reportaje: 'Feature', noticia: 'News', podcast: 'Podcast',
+                      papel_digital: 'Print & online', digital: 'Online', video: 'Video', radio: 'Radio', audio: 'Audio',
+                      read: 'Read →', watch: 'Watch →', listen: 'Listen →' }
+            };
+
+            function fmtDate(iso) {
+                const d = new Date(iso + 'T12:00:00');
+                if (lang === 'en') {
+                    const day = d.getDate();
+                    const suffix = (day % 10 === 1 && day !== 11) ? 'st' : (day % 10 === 2 && day !== 12) ? 'nd' : (day % 10 === 3 && day !== 13) ? 'rd' : 'th';
+                    return `${d.toLocaleDateString('en-US', { month: 'long' })} ${day}${suffix}, ${d.getFullYear()}`;
+                }
+                return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            }
+
+            function el(tag, cls, text) {
+                const e = document.createElement(tag);
+                if (cls) e.className = cls;
+                if (text) e.textContent = text;
+                return e;
+            }
+
+            function render() {
+                const t = L[lang];
+                const featured = document.getElementById('mediaFeatured');
+                const list = document.getElementById('mediaList');
+                featured.innerHTML = '';
+                list.innerHTML = '';
+                items.forEach(it => {
+                    const action = it.soporte === 'video' ? t.watch : (it.soporte === 'radio' || it.soporte === 'audio') ? t.listen : t.read;
+                    const meta = [fmtDate(it.fecha), t[it.tipo] || it.tipo, t[it.soporte] || it.soporte].join(' · ');
+                    const a = el('a', it.destacado ? 'media-card' : '');
+                    a.href = it.url;
+                    a.target = '_blank';
+                    a.rel = 'noopener';
+                    if (it.destacado) {
+                        const clip = el('div', 'media-clip');
+                        if (it.imagen) {
+                            const img = el('img');
+                            img.src = 'assets/prensa/' + it.imagen;
+                            img.alt = it.medio;
+                            img.loading = 'lazy';
+                            clip.appendChild(img);
+                        } else {
+                            clip.classList.add('media-clip-empty');
+                            clip.textContent = it.medio;
+                        }
+                        a.appendChild(clip);
+                    }
+                    const head = el('div');
+                    head.append(el('div', 'media-outlet', it.medio), el('div', 'media-meta', meta));
+                    a.append(head, el('div', 'media-headline', it.titular), el('div', 'media-more', action));
+                    if (it.destacado) {
+                        featured.appendChild(a);
+                    } else {
+                        const li = el('li');
+                        li.appendChild(a);
+                        list.appendChild(li);
+                    }
+                });
+                box.hidden = items.length === 0;
+            }
+
+            document.addEventListener('llg:lang', e => { lang = e.detail; render(); });
+
+            fetch('assets/prensa/medios.json', { cache: 'no-cache' })
+                .then(r => r.ok ? r.json() : null)
+                .then(json => { items = (json && json.impactos) || []; render(); })
                 .catch(() => {});
         })();
     </script>
