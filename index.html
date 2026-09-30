@@ -866,6 +866,34 @@
             color: var(--color-accent);
         }
 
+        .footer-x21 {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 1rem;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-x21:hover {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .footer-x21-chip {
+            display: flex;
+            padding: 5px 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+        }
+
+        .footer-x21-chip img {
+            height: 13px;
+            width: auto;
+            display: block;
+        }
+
         /* Responsive */
         @media (max-width: 968px) {
             .hero-content {
@@ -1555,7 +1583,11 @@ section[id] {
                 <a href="https://twitter.com/LeopoldoLopezG" target="_blank">Twitter/X: @LeopoldoLopezG</a>
                 <a href="https://www.instagram.com/leopoldolopezgil" target="_blank">Instagram: @leopoldolopezgil</a>
             </div>
-            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.5;" data-i18n="footer.rights">© 2026 X21 Consulting. Todos los derechos reservados.</p>
+            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.5;" data-i18n="footer.rights">© 2026 Leopoldo López Gil. Todos los derechos reservados.</p>
+            <a href="https://x21.consulting" target="_blank" rel="noopener noreferrer" class="footer-x21" aria-label="Estrategia de comunicación: X21 — x21.consulting" data-i18n-aria="footer.creditLabel">
+                <span data-i18n="footer.credit">Estrategia de comunicación</span>
+                <span class="footer-x21-chip"><img src="assets/images/x21-logo-blanco.png" alt="X21" width="31" height="13" loading="lazy"></span>
+            </a>
         </div>
     </footer>
 
@@ -1583,7 +1615,9 @@ section[id] {
                 "press.en": "Press kit · English (PDF)",
                 "press.contact": "Press contact",
                 "press.materials": "Additional media materials →",
-                "footer.rights": "© 2026 X21 Consulting. All rights reserved.",
+                "footer.rights": "© 2026 Leopoldo López Gil. All rights reserved.",
+                "footer.credit": "Communications strategy",
+                "footer.creditLabel": "Communications strategy: X21 — x21.consulting",
                 "hero.cta": "Presentation at the European Parliament",
                 "alt.cover": "Cover of the book La vida sigue, la lucha continúa",
                 "alt.g1": "President of Fundayacucho",
@@ -1605,17 +1639,17 @@ section[id] {
                 "pe.participant": "With the participation of Antonio López Istúriz",
                 "pe.participantRole": "Member of the European Parliament",
                 "pe.intro1": "Leopoldo López Gil presents his book <em>La vida sigue, la lucha continúa</em> (<em>Life Goes On, the Struggle Continues</em>) at the European Parliament. The event holds special meaning for the author, who returns to the institution where he served as a Member of the European Parliament from 2019 to 2024.",
-                "pe.intro2": "The event is an opportunity to reflect on the ties between Europe and Latin America and on the political, social and educational challenges facing new generations. López Gil will address some of the book's major themes: the history of Venezuela, memory and commitment across generations, the role of education in the development and rebuilding of nations, and the defence of democracy and the rule of law.",
+                "pe.intro2": "The event is an opportunity to reflect on the ties between Europe and Latin America and on the political, social and educational challenges facing new generations. López Gil will address some of the book's major themes: the history of Venezuela, memory and commitment across generations, the role of education in the development and rebuilding of nations, and the defense of democracy and the rule of law.",
                 "words.title": "In the author's words",
-                "words.text": "I wanted to write about how the commitment to freedom is passed down from generation to generation, and about the role education played —especially the Gran Mariscal de Ayacucho Scholarship Programme— in building the Venezuela I knew and believed in. This book is not an exercise in nostalgia, but a need to bear witness to a lineage of Venezuelans who took an active part in the task of building a country.",
+                "words.text": "I wanted to write about how the commitment to freedom is passed down from generation to generation, and about the role education played —especially the Gran Mariscal de Ayacucho Scholarship Program— in building the Venezuela I knew and believed in. This book is not an exercise in nostalgia, but a need to bear witness to a lineage of Venezuelans who took an active part in the task of building a country.",
                 "insights.title": "A testimony of four generations",
                 "insights.hint": "Learn more",
                 "card1.title": "From the 18th century to the present",
                 "card1.front": "A historical journey spanning more than two centuries of Venezuelan history.",
                 "card1.back": "The book documents the López family's part in Venezuela's defining moments: from the struggle for independence, through exile under the dictatorship of Juan Vicente Gómez and the democratic rebuilding of 1958, to today's crisis and the Venezuelan diaspora.",
                 "card2.title": "The power of education",
-                "card2.front": "A first-hand account of the Gran Mariscal de Ayacucho Scholarship Programme.",
-                "card2.back": "Created in 1974, the programme sent thousands of young Venezuelans to the world's best universities. The \"Ayacuchos\" were a generation of professionals who came home hoping to build a prosperous, modern Venezuela.",
+                "card2.front": "A firsthand account of the Gran Mariscal de Ayacucho Scholarship Program.",
+                "card2.back": "Created in 1974, the program sent thousands of young Venezuelans to the world's best universities. The \"Ayacuchos\" were a generation of professionals who came home hoping to build a prosperous, modern Venezuela.",
                 "card3.title": "A unique historical archive",
                 "card3.front": "Newspaper archives and photographs from the family's personal collection.",
                 "card3.back": "The book includes original documents from the National Newspaper Library in Caracas and previously unpublished photographs from the López family archive, making it a historical document of the first order.",
@@ -1626,7 +1660,7 @@ section[id] {
                 "card5.front": "\"Life goes on, the struggle continues\": a message of continuity across generations.",
                 "card5.back": "\"I understood that memory is not just remembrance; it is projection. What we have lived is understanding, order and the passing on of what we have learned. Commitment to one's country is not a circumstantial decision, but a way of life passed down from generation to generation.\"",
                 "gallery.title": "Gallery",
-                "gallery.c1": "Being sworn in as president of Fundayacucho for the second time, in the Hall of Mirrors at Miraflores Palace. Much had happened since that first time, when I was a young man of 29. On this occasion, in February 1989, President Pérez told me: \"I will be remembered more for the Ayacucho Foundation than for the nationalisation of oil.\"",
+                "gallery.c1": "Being sworn in as president of Fundayacucho for the second time, in the Hall of Mirrors at Miraflores Palace. Much had happened since that first time, when I was a young man of 29. On this occasion, in February 1989, President Pérez told me: \"I will be remembered more for the Ayacucho Foundation than for the nationalization of oil.\"",
                 "gallery.c2": "We presented Prime Minister Mariano Rajoy with the book \"Preso pero Libre\" at the Moncloa Palace. Mariano Rajoy was the first head of government to receive Lilian to hear about Leopoldo's situation in prison. He granted us Spanish nationality, a gesture for which we will always be grateful. He continues to follow Venezuela and its events closely.",
                 "gallery.c3": "I gave Josep Borrell Javier Moro's book about Leopoldo and Lilian. We met, as on so many occasions, at the European Parliament. Borrell was then the EU's High Representative. He always showed concern for the human rights situation in Venezuela.",
                 "gallery.c4": "My relationship with José Manuel García-Margallo has never been limited to political ties. José Manuel has always been a guide to understanding Spain and its political and cultural history. We have shared a number of European Parliament missions.",
