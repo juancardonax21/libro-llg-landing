@@ -685,6 +685,97 @@
     color: var(--color-accent);
 }
 
+        /* Press Section */
+        .press-section {
+            text-align: center;
+        }
+
+        .press-intro {
+            max-width: 650px;
+            margin: 0 auto 2rem;
+            color: var(--color-text-light);
+        }
+
+        .press-downloads {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .cta-outline {
+            background: transparent;
+            border: 2px solid var(--color-secondary);
+            color: var(--color-secondary);
+            box-shadow: none;
+        }
+
+        .cta-outline:hover {
+            color: white;
+        }
+
+        /* En inglés, el PDF en inglés va primero y destacado */
+        html[lang="en"] .press-downloads a:last-child {
+            order: -1;
+            background: var(--color-secondary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 105, 20, 0.3);
+        }
+
+        html[lang="en"] .press-downloads a:first-child {
+            background: transparent;
+            border: 2px solid var(--color-secondary);
+            color: var(--color-secondary);
+            box-shadow: none;
+        }
+
+        .press-contact {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(139, 105, 20, 0.2);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .press-contact a {
+            color: var(--color-secondary);
+            text-decoration: none;
+        }
+
+        .press-contact a:hover {
+            color: var(--color-accent);
+        }
+
+        .press-contact-label {
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+        }
+
+        .press-contact-name {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--color-primary);
+        }
+
+        .press-materials {
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 968px) {
+            .press-downloads .cta-button {
+                width: 100%;
+                max-width: 360px;
+                font-size: 0.85rem;
+                padding: 1rem 1.5rem;
+            }
+        }
+
         /* About Section */
         .about-section {
             background: white;
@@ -1139,6 +1230,7 @@ section[id] {
                 <li><a href="#testimonio" data-i18n="nav.book">El libro</a></li>
                 <li><a href="#galeria" data-i18n="nav.gallery" data-i18n="gallery.title">Galería</a></li>
                 <li><a href="#eventos" data-i18n="nav.events">Encuentros</a></li>
+                <li><a href="#prensa" data-i18n="nav.press">Prensa</a></li>
             </ul>
             <div class="lang-switch" role="group" aria-label="Idioma" data-i18n-aria="nav.langLabel">
                 <button type="button" data-lang="es" aria-pressed="true">ES</button>
@@ -1324,9 +1416,6 @@ section[id] {
                 </div>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="assets/docs/nota.pdf" download class="cta-button" style="background: transparent; border: 2px solid var(--color-secondary); color: var(--color-secondary);" data-i18n="insights.download">Descargar Reseña de Prensa Completa</a>
-        </div>
     </section>
 
     <!-- Gallery Section -->
@@ -1443,6 +1532,22 @@ section[id] {
         </div>
     </section>
 
+    <!-- Press Section -->
+    <section class="press-section" id="prensa">
+        <h2 class="section-title" data-i18n="press.title">Prensa</h2>
+        <p class="press-intro" data-i18n="press.intro">Descarga la reseña de prensa con información sobre el libro, el autor, el contexto histórico y la ficha técnica.</p>
+        <div class="press-downloads">
+            <a href="assets/docs/nota.pdf" download class="cta-button" data-i18n="press.es">Reseña de prensa · Español (PDF)</a>
+            <a href="assets/docs/press-kit-en.pdf" download class="cta-button cta-outline" data-i18n="press.en">Press kit · English (PDF)</a>
+        </div>
+        <div class="press-contact">
+            <p class="press-contact-label" data-i18n="press.contact">Contacto de prensa</p>
+            <p class="press-contact-name">Gemma Martín Piquet</p>
+            <p><a href="mailto:gemmamartinpiquet@x21.consulting">gemmamartinpiquet@x21.consulting</a> · <a href="tel:+34610018790">+34 610 01 87 90</a></p>
+            <p class="press-materials"><a href="https://pagea.uk/libro" target="_blank" rel="noopener" data-i18n="press.materials">Material adicional para medios →</a></p>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <div class="footer-content">
@@ -1471,7 +1576,13 @@ section[id] {
                 "nav.book": "The book",
                 "nav.gallery": "Gallery",
                 "nav.events": "Events",
-                "insights.download": "Download full press kit (Spanish, PDF)",
+                "nav.press": "Press",
+                "press.title": "Press",
+                "press.intro": "Download the press kit with information about the book, the author, the historical context and the book details.",
+                "press.es": "Reseña de prensa · Español (PDF)",
+                "press.en": "Press kit · English (PDF)",
+                "press.contact": "Press contact",
+                "press.materials": "Additional media materials →",
                 "footer.rights": "© 2026 X21 Consulting. All rights reserved.",
                 "hero.cta": "Presentation at the European Parliament",
                 "alt.cover": "Cover of the book La vida sigue, la lucha continúa",
