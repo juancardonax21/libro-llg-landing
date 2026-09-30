@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La vida sigue, la lucha continúa - Leopoldo López Gil</title>
+    <script>
+        // Idioma: ?lang= > elección guardada > idioma del navegador (español → es, resto → en)
+        (function () {
+            var lang = 'es';
+            try {
+                var q = new URLSearchParams(location.search).get('lang');
+                var saved = null;
+                try { saved = localStorage.getItem('llg-lang'); } catch (e) {}
+                var nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'es';
+                lang = (q === 'es' || q === 'en') ? q
+                     : (saved === 'es' || saved === 'en') ? saved
+                     : (/^es\b/i.test(nav) ? 'es' : 'en');
+            } catch (e) {}
+            window.__llgLang = lang;
+            document.documentElement.lang = lang;
+            if (lang === 'en') {
+                document.documentElement.classList.add('i18n-pending');
+                setTimeout(function () { document.documentElement.classList.remove('i18n-pending'); }, 1500);
+            }
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -809,11 +830,7 @@
 .aforo-banner {
     background: linear-gradient(135deg, #8b6914 0%, #c49a3d 100%);
     color: white;
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    padding: 0.75rem 0;
 }
 
 .aforo-banner .container {
@@ -868,14 +885,202 @@
 }
 
 @media (max-width: 768px) {
+    .aforo-banner {
+        padding: 0.5rem 0;
+    }
+
     .aforo-banner .container {
-        flex-direction: column;
+        padding: 0 1rem;
+        gap: 0.5rem 0.75rem;
         text-align: center;
+    }
+
+    .banner-text {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .banner-button {
+        padding: 0.3rem 0.9rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Cabecera fija: banner + navegación */
+html.i18n-pending body {
+    visibility: hidden;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+}
+
+section[id] {
+    scroll-margin-top: calc(var(--header-h, 120px) + 8px);
+}
+
+.site-nav {
+    position: relative;
+    background: rgba(250, 248, 245, 0.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(139, 105, 20, 0.15);
+}
+
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-brand {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: auto;
+    min-width: 0;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.75rem;
+}
+
+.nav-links a {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--color-secondary);
+    border-bottom-color: var(--color-accent);
+}
+
+.lang-switch {
+    display: flex;
+    flex-shrink: 0;
+    border: 1px solid rgba(139, 105, 20, 0.4);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.lang-switch button {
+    background: none;
+    border: 0;
+    padding: 0.3rem 0.7rem;
+    font: 600 0.75rem var(--font-body);
+    letter-spacing: 1px;
+    color: var(--color-secondary);
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.lang-switch button[aria-pressed="true"] {
+    background: var(--color-secondary);
+    color: white;
+}
+
+.nav-toggle {
+    display: none;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-primary);
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 968px) {
+    .nav-inner {
+        padding: 0 1rem;
+        height: 54px;
         gap: 0.75rem;
     }
-    
-    .banner-text {
-        font-size: 0.9rem;
+
+    .nav-brand {
+        font-size: 1.05rem;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        padding: 0.5rem 1.5rem 1rem;
+        background: var(--color-bg);
+        border-bottom: 1px solid rgba(139, 105, 20, 0.15);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links li {
+        border-bottom: 1px solid rgba(139, 105, 20, 0.1);
+    }
+
+    .nav-links li:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 0.9rem 0;
+        font-size: 0.85rem;
+        border-bottom: none;
     }
 }
 
@@ -903,59 +1108,79 @@
     </style>
 </head>
 <body>
-<!-- Banner de aforo completo -->
-<div class="aforo-banner">
-    <div class="container">
-        <span class="banner-text">
-            <strong>HOY, 30 DE SEPTIEMBRE</strong> — Presentación del libro en el Parlamento Europeo, Bruselas
-        </span>
-
-        <a href="#bruselas" class="banner-button">Ver detalles</a>
+<header class="site-header" id="siteHeader">
+    <!-- Banner de aviso -->
+    <div class="aforo-banner">
+        <div class="container">
+            <span class="banner-text" data-i18n="banner.text"><strong>HOY, 30 DE SEPTIEMBRE</strong> — Presentación del libro en el Parlamento Europeo, Bruselas</span>
+            <a href="#bruselas" class="banner-button" data-i18n="banner.button">Ver detalles</a>
+        </div>
     </div>
-</div>
+
+    <!-- Navegación -->
+    <nav class="site-nav" aria-label="Principal" data-i18n-aria="nav.label">
+        <div class="nav-inner">
+            <a href="#inicio" class="nav-brand">La vida sigue, la lucha continúa</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#bruselas" data-i18n="nav.brussels" data-i18n="pe.city">Bruselas</a></li>
+                <li><a href="#autor" data-i18n="nav.author">El autor</a></li>
+                <li><a href="#testimonio" data-i18n="nav.book">El libro</a></li>
+                <li><a href="#galeria" data-i18n="nav.gallery" data-i18n="gallery.title">Galería</a></li>
+                <li><a href="#eventos" data-i18n="nav.events">Encuentros</a></li>
+            </ul>
+            <div class="lang-switch" role="group" aria-label="Idioma" data-i18n-aria="nav.langLabel">
+                <button type="button" data-lang="es" aria-pressed="true">ES</button>
+                <button type="button" data-lang="en" aria-pressed="false">EN</button>
+            </div>
+            <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú" data-i18n-aria="nav.toggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+</header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="inicio">
         <div class="hero-content">
             <div class="hero-text">
                 <h1>La vida sigue, la lucha continúa</h1>
-                <p class="subtitle">Cuatro generaciones comprometidas con la democracia venezolana</p>
+                <p class="subtitle" data-i18n="hero.subtitle">Cuatro generaciones comprometidas con la democracia venezolana</p>
                 <p class="author">Leopoldo López Gil</p>
-                <a href="#bruselas" class="cta-button">Presentación en el Parlamento Europeo</a>
+                <a href="#bruselas" class="cta-button" data-i18n="hero.cta">Presentación en el Parlamento Europeo</a>
             </div>
             <div class="hero-image">
-                <img src="assets/images/portada-libro.jpg" alt="Portada del libro La vida sigue, la lucha continúa" class="book-cover">
+                <img src="assets/images/portada-libro.jpg" alt="Portada del libro La vida sigue, la lucha continúa" data-i18n-alt="alt.cover" class="book-cover">
             </div>
         </div>
     </section>
 
     <!-- Presentación en el Parlamento Europeo -->
     <section class="event-section" id="bruselas">
-        <span class="event-kicker">Hoy · Bruselas</span>
-        <h2 class="section-title">Presentación en el Parlamento Europeo</h2>
+        <span class="event-kicker" data-i18n="pe.kicker">Hoy · Bruselas</span>
+        <h2 class="section-title" data-i18n="pe.title">Presentación en el Parlamento Europeo</h2>
 
         <div class="event-details">
-            <p class="event-highlight">30 de septiembre de 2026</p>
+            <p class="event-highlight" data-i18n="pe.date">30 de septiembre de 2026</p>
 
-            <p class="event-location">Biblioteca del Parlamento Europeo</p>
-            <p class="event-location">Bruselas</p>
+            <p class="event-location" data-i18n="pe.venue">Biblioteca del Parlamento Europeo</p>
+            <p class="event-location" data-i18n="pe.city">Bruselas</p>
 
             <div class="decorative-line"></div>
 
-            <p class="event-location">Presentado por Esteban González Pons</p>
-            <p class="event-speaker">Eurodiputado y vicepresidente del Parlamento Europeo</p>
-            <p class="event-location">Con la participación de Antonio López Istúriz</p>
-            <p class="event-speaker">Eurodiputado</p>
+            <p class="event-location" data-i18n="pe.presenter">Presentado por Esteban González Pons</p>
+            <p class="event-speaker" data-i18n="pe.presenterRole">Eurodiputado y vicepresidente del Parlamento Europeo</p>
+            <p class="event-location" data-i18n="pe.participant">Con la participación de Antonio López Istúriz</p>
+            <p class="event-speaker" data-i18n="pe.participantRole">Eurodiputado</p>
 
             <div class="event-intro">
-                <p>Leopoldo López Gil presenta en el Parlamento Europeo su libro <em>La vida sigue, la lucha continúa</em>. El encuentro tiene un significado especial para el autor, que regresa a la institución de la que formó parte como eurodiputado entre 2019 y 2024.</p>
-                <p>El acto es una ocasión para reflexionar sobre los vínculos entre Europa y América Latina y sobre los retos políticos, sociales y educativos que afrontan las nuevas generaciones. López Gil abordará algunos de los grandes temas de la obra: la historia de Venezuela, la memoria y el compromiso entre generaciones, el papel de la educación en el desarrollo y la reconstrucción de los países, y la defensa de la democracia y del Estado de derecho.</p>
+                <p data-i18n="pe.intro1">Leopoldo López Gil presenta en el Parlamento Europeo su libro <em>La vida sigue, la lucha continúa</em>. El encuentro tiene un significado especial para el autor, que regresa a la institución de la que formó parte como eurodiputado entre 2019 y 2024.</p>
+                <p data-i18n="pe.intro2">El acto es una ocasión para reflexionar sobre los vínculos entre Europa y América Latina y sobre los retos políticos, sociales y educativos que afrontan las nuevas generaciones. López Gil abordará algunos de los grandes temas de la obra: la historia de Venezuela, la memoria y el compromiso entre generaciones, el papel de la educación en el desarrollo y la reconstrucción de los países, y la defensa de la democracia y del Estado de derecho.</p>
             </div>
         </div>
     </section>
 
     <!-- Video Section -->
-    <section class="video-section">
+    <section class="video-section" id="autor">
         <div class="video-container">
             <!-- Opción 1: Video local (archivo en tu servidor) -->
             <video controls playsinline>
@@ -972,17 +1197,17 @@
         
         <!-- Words from Author (integrado debajo del vídeo) -->
         <div class="words-content-inline">
-            <h2 class="section-title-inline">Palabras del autor</h2>
+            <h2 class="section-title-inline" data-i18n="words.title">Palabras del autor</h2>
             <div class="words-text-inline">
-                <p>He querido escribir sobre cómo el compromiso con la libertad se transmite de generación en generación, y sobre el papel que jugó la educación —especialmente el Programa de Becas Gran Mariscal de Ayacucho— en la construcción de la Venezuela que conocí y en la que creí. Este libro no es un ejercicio de nostalgia, sino la necesidad de dejar constancia de una estirpe de venezolanos que participaron activamente en la tarea de construir un país.</p>
+                <p data-i18n="words.text">He querido escribir sobre cómo el compromiso con la libertad se transmite de generación en generación, y sobre el papel que jugó la educación —especialmente el Programa de Becas Gran Mariscal de Ayacucho— en la construcción de la Venezuela que conocí y en la que creí. Este libro no es un ejercicio de nostalgia, sino la necesidad de dejar constancia de una estirpe de venezolanos que participaron activamente en la tarea de construir un país.</p>
             </div>
             <p class="words-signature-inline">— Leopoldo López Gil</p>
         </div>
     </section>
 
     <!-- Key Insights Section -->
-    <section class="insights-section">
-        <h2 class="section-title">Un testimonio de cuatro generaciones</h2>
+    <section class="insights-section" id="testimonio">
+        <h2 class="section-title" data-i18n="insights.title">Un testimonio de cuatro generaciones</h2>
         <div class="insights-grid">
             <div class="insight-card-flip">
                 <div class="insight-card-inner">
@@ -992,13 +1217,13 @@
                                 <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
                             </svg>
                         </div>
-                        <h3>Del siglo XVIII al presente</h3>
-                        <p>Un recorrido histórico que abarca más de dos siglos de historia venezolana.</p>
-                        <span class="flip-hint">Click para saber más</span>
+                        <h3 data-i18n="card1.title">Del siglo XVIII al presente</h3>
+                        <p data-i18n="card1.front">Un recorrido histórico que abarca más de dos siglos de historia venezolana.</p>
+                        <span class="flip-hint" data-i18n="insights.hint">Click para saber más</span>
                     </div>
                     <div class="insight-card-back">
-                        <h3>Del siglo XVIII al presente</h3>
-                        <p>El libro documenta la participación de la familia López en los momentos clave de Venezuela: desde las luchas independentistas, pasando por el exilio durante la dictadura de Juan Vicente Gómez, la construcción democrática de 1958, hasta la crisis actual y la diáspora venezolana.</p>
+                        <h3 data-i18n="card1.title">Del siglo XVIII al presente</h3>
+                        <p data-i18n="card1.back">El libro documenta la participación de la familia López en los momentos clave de Venezuela: desde las luchas independentistas, pasando por el exilio durante la dictadura de Juan Vicente Gómez, la construcción democrática de 1958, hasta la crisis actual y la diáspora venezolana.</p>
                     </div>
                 </div>
             </div>  
@@ -1013,13 +1238,13 @@
                                 <path d="M8 7h8M8 11h8"/>
                             </svg>
                         </div>
-                        <h3>El poder de la educación</h3>
-                        <p>Testimonio del Programa de Becas Gran Mariscal de Ayacucho.</p>
-                        <span class="flip-hint">Click para saber más</span>
+                        <h3 data-i18n="card2.title">El poder de la educación</h3>
+                        <p data-i18n="card2.front">Testimonio del Programa de Becas Gran Mariscal de Ayacucho.</p>
+                        <span class="flip-hint" data-i18n="insights.hint">Click para saber más</span>
                     </div>
                     <div class="insight-card-back">
-                        <h3>El poder de la educación</h3>
-                        <p>Creado en 1974, el programa envió miles de jóvenes venezolanos a las mejores universidades del mundo. Los "Ayacuchos" representaron una generación de profesionales que regresaron con la esperanza de construir una Venezuela próspera y moderna.</p>
+                        <h3 data-i18n="card2.title">El poder de la educación</h3>
+                        <p data-i18n="card2.back">Creado en 1974, el programa envió miles de jóvenes venezolanos a las mejores universidades del mundo. Los "Ayacuchos" representaron una generación de profesionales que regresaron con la esperanza de construir una Venezuela próspera y moderna.</p>
                     </div>
                 </div>
             </div>
@@ -1034,13 +1259,13 @@
                                 <path d="M21 15l-5-5L5 21"/>
                             </svg>
                         </div>
-                        <h3>Archivo histórico único</h3>
-                        <p>Material hemerográfico y fotografías del archivo personal familiar.</p>
-                        <span class="flip-hint">Click para saber más</span>
+                        <h3 data-i18n="card3.title">Archivo histórico único</h3>
+                        <p data-i18n="card3.front">Material hemerográfico y fotografías del archivo personal familiar.</p>
+                        <span class="flip-hint" data-i18n="insights.hint">Click para saber más</span>
                     </div>
                     <div class="insight-card-back">
-                        <h3>Archivo histórico único</h3>
-                        <p>El libro incluye documentos originales de la Hemeroteca Nacional de Caracas y fotografías del archivo personal de la familia López que no se habían publicado antes, convirtiendo la obra en un documento histórico de primer orden.</p>
+                        <h3 data-i18n="card3.title">Archivo histórico único</h3>
+                        <p data-i18n="card3.back">El libro incluye documentos originales de la Hemeroteca Nacional de Caracas y fotografías del archivo personal de la familia López que no se habían publicado antes, convirtiendo la obra en un documento histórico de primer orden.</p>
                     </div>
                 </div>
             </div>
@@ -1054,13 +1279,13 @@
                                 <path d="M12 6v6l4 2"/>
                             </svg>
                         </div>
-                        <h3>De 4 a 30 millones</h3>
-                        <p>Testigo de la transformación vertiginosa de Venezuela.</p>
-                        <span class="flip-hint">Click para saber más</span>
+                        <h3 data-i18n="card4.title">De 4 a 30 millones</h3>
+                        <p data-i18n="card4.front">Testigo de la transformación vertiginosa de Venezuela.</p>
+                        <span class="flip-hint" data-i18n="insights.hint">Click para saber más</span>
                     </div>
                     <div class="insight-card-back">
-                        <h3>De 4 a 30 millones</h3>
-                        <p>El autor narra cómo Venezuela pasó de 4 millones de habitantes y solo 8.000 estudiantes universitarios a diseñar una ciudad universitaria para 15.000 que terminaría albergando más de 50.000. "El país no creció de forma lineal: dio saltos vertiginosos."</p>
+                        <h3 data-i18n="card4.title">De 4 a 30 millones</h3>
+                        <p data-i18n="card4.back">El autor narra cómo Venezuela pasó de 4 millones de habitantes y solo 8.000 estudiantes universitarios a diseñar una ciudad universitaria para 15.000 que terminaría albergando más de 50.000. "El país no creció de forma lineal: dio saltos vertiginosos."</p>
                     </div>
                 </div>
             </div>
@@ -1075,88 +1300,86 @@
                                 <path d="M2 12l10 5 10-5"/>
                             </svg>
                         </div>
-                        <h3>Memoria y esperanza</h3>
-                        <p>"La vida sigue, la lucha continúa": un mensaje de continuidad generacional.</p>
-                        <span class="flip-hint">Click para saber más</span>
+                        <h3 data-i18n="card5.title">Memoria y esperanza</h3>
+                        <p data-i18n="card5.front">"La vida sigue, la lucha continúa": un mensaje de continuidad generacional.</p>
+                        <span class="flip-hint" data-i18n="insights.hint">Click para saber más</span>
                     </div>
                     <div class="insight-card-back">
-                        <h3>Memoria y esperanza</h3>
-                        <p>"Comprendí que la memoria no es solo recuerdo, es proyección. Lo vivido es comprensión, orden y transmisión de lo aprendido. El compromiso con el país no es una decisión circunstancial, sino una forma de vida que se transmite de generación en generación."</p>
+                        <h3 data-i18n="card5.title">Memoria y esperanza</h3>
+                        <p data-i18n="card5.back">"Comprendí que la memoria no es solo recuerdo, es proyección. Lo vivido es comprensión, orden y transmisión de lo aprendido. El compromiso con el país no es una decisión circunstancial, sino una forma de vida que se transmite de generación en generación."</p>
                     </div>
                 </div>
             </div>
         </div>
         <div style="text-align: center; margin-top: 3rem;">
-            <a href="assets/docs/nota.pdf" download class="cta-button" style="background: transparent; border: 2px solid var(--color-secondary); color: var(--color-secondary);">
-                Descargar Reseña de Prensa Completa
-            </a>
+            <a href="assets/docs/nota.pdf" download class="cta-button" style="background: transparent; border: 2px solid var(--color-secondary); color: var(--color-secondary);" data-i18n="insights.download">Descargar Reseña de Prensa Completa</a>
         </div>
     </section>
 
     <!-- Gallery Section -->
-    <section>
-        <h2 class="section-title">Galería</h2>
+    <section id="galeria">
+        <h2 class="section-title" data-i18n="gallery.title">Galería</h2>
         <div class="gallery-grid" id="galleryGrid">
             <div class="gallery-item-wrapper">
                 <div class="gallery-item">
-                    <img src="assets/images/galeria/foto1.jpeg" alt="Presidente de Fundayacucho">
+                    <img src="assets/images/galeria/foto1.jpeg" alt="Presidente de Fundayacucho" data-i18n-alt="alt.g1">
                 </div>
-                <p class="gallery-caption">Aquí juramentándome como presidente de Fundayacucho por segunda vez en el Salón de los Espejos del Palacio de Miraflores. Mucha agua había corrido desde aquella primera experiencia en que era un joven de 29 años. En esta ocasión, febrero de 1989, el presidente Pérez me dijo: "Yo seré recordado más por la Fundación Ayacucho que por la nacionalización del petróleo".</p>
+                <p class="gallery-caption" data-i18n="gallery.c1">Aquí juramentándome como presidente de Fundayacucho por segunda vez en el Salón de los Espejos del Palacio de Miraflores. Mucha agua había corrido desde aquella primera experiencia en que era un joven de 29 años. En esta ocasión, febrero de 1989, el presidente Pérez me dijo: "Yo seré recordado más por la Fundación Ayacucho que por la nacionalización del petróleo".</p>
             </div>
             <div class="gallery-item-wrapper">
                 <div class="gallery-item">
-                    <img src="assets/images/galeria/foto2.jpeg" alt="Entrega de libro a Mariano Rajoy">
+                    <img src="assets/images/galeria/foto2.jpeg" alt="Entrega de libro a Mariano Rajoy" data-i18n-alt="alt.g2">
                 </div>
-                <p class="gallery-caption">Al presidente Mariano Rajoy le entregamos el libro "Preso pero Libre" en el palacio de la Moncloa. Mariano Rajoy fue el primer presidente en recibir a Lilian para conocer el estado de Leopoldo en prisión. Nos otorgó la nacionalidad, un gesto del que siempre estaremos agradecidos. Él sigue pendiente de Venezuela y de sus acontecimientos.</p>
+                <p class="gallery-caption" data-i18n="gallery.c2">Al presidente Mariano Rajoy le entregamos el libro "Preso pero Libre" en el palacio de la Moncloa. Mariano Rajoy fue el primer presidente en recibir a Lilian para conocer el estado de Leopoldo en prisión. Nos otorgó la nacionalidad, un gesto del que siempre estaremos agradecidos. Él sigue pendiente de Venezuela y de sus acontecimientos.</p>
             </div>
             <div class="gallery-item-wrapper">
                 <div class="gallery-item">
-                    <img src="assets/images/galeria/foto3.jpeg" alt="Reunión con Josep Borrell">
+                    <img src="assets/images/galeria/foto3.jpeg" alt="Reunión con Josep Borrell" data-i18n-alt="alt.g3">
                 </div>
-                <p class="gallery-caption">A Josep Borrell le hice entrega del libro de Javier Moro sobre Leopoldo y Lilian. Nos reunimos, como tantas veces, en la sede del Parlamento Europeo. Entonces Borrell era Alto Representante de la Comisión Europea. Borrell siempre mostró preocupación por la situación de los derechos humanos en Venezuela.</p>
+                <p class="gallery-caption" data-i18n="gallery.c3">A Josep Borrell le hice entrega del libro de Javier Moro sobre Leopoldo y Lilian. Nos reunimos, como tantas veces, en la sede del Parlamento Europeo. Entonces Borrell era Alto Representante de la Comisión Europea. Borrell siempre mostró preocupación por la situación de los derechos humanos en Venezuela.</p>
             </div>
             <div class="gallery-item-wrapper">
                 <div class="gallery-item">
-                    <img src="assets/images/galeria/foto4.jpeg" alt="Con José Manuel García-Margallo">
+                    <img src="assets/images/galeria/foto4.jpeg" alt="Con José Manuel García-Margallo" data-i18n-alt="alt.g4">
                 </div>
-                <p class="gallery-caption">Mi relación con José Manuel García-Margallo no se ha limitado a los vínculos de índole políticos. José Manuel siempre ha sido una guía para la comprensión de España y su historia política y cultural. Hemos compartido diversas misiones del Parlamento Europeo.</p>
+                <p class="gallery-caption" data-i18n="gallery.c4">Mi relación con José Manuel García-Margallo no se ha limitado a los vínculos de índole políticos. José Manuel siempre ha sido una guía para la comprensión de España y su historia política y cultural. Hemos compartido diversas misiones del Parlamento Europeo.</p>
             </div>
             <div class="gallery-item-wrapper">
                 <div class="gallery-item">
-                    <img src="assets/images/galeria/foto5.jpeg" alt="Revista Zeta 1975">
+                    <img src="assets/images/galeria/foto5.jpeg" alt="Revista Zeta 1975" data-i18n-alt="alt.g5">
                 </div>
-                <p class="gallery-caption">En revista Zeta, 8 de junio de 1975.</p>
+                <p class="gallery-caption" data-i18n="gallery.c5">En revista Zeta, 8 de junio de 1975.</p>
             </div>
         </div>
         
         <!-- Gallery Navigation -->
         <div class="gallery-nav">
-            <button class="gallery-nav-btn" id="prevBtn" aria-label="Anterior">‹</button>
+            <button class="gallery-nav-btn" id="prevBtn" aria-label="Anterior" data-i18n-aria="gallery.prev">‹</button>
             <div class="gallery-dots" id="galleryDots"></div>
-            <button class="gallery-nav-btn" id="nextBtn" aria-label="Siguiente">›</button>
+            <button class="gallery-nav-btn" id="nextBtn" aria-label="Siguiente" data-i18n-aria="gallery.next">›</button>
         </div>
     </section>
 
     <!-- About the Book Section -->
-    <section class="about-section">
-        <h2 class="section-title">Sobre el libro</h2>
+    <section class="about-section" id="libro">
+        <h2 class="section-title" data-i18n="about.title">Sobre el libro</h2>
         <div class="about-content">
             <div class="about-text">
-                <h3>Un testimonio histórico</h3>
-                <p>300 páginas que recorren la historia de Venezuela desde el siglo XVIII hasta el presente, entrelazando memoria familiar y lucha política.</p>
-                <p>Con material hemerográfico histórico de la Hemeroteca Nacional de Caracas, el libro documenta cómo tres generaciones participaron activamente en la construcción democrática del país.</p>
+                <h3 data-i18n="about.subtitle">Un testimonio histórico</h3>
+                <p data-i18n="about.p1">300 páginas que recorren la historia de Venezuela desde el siglo XVIII hasta el presente, entrelazando memoria familiar y lucha política.</p>
+                <p data-i18n="about.p2">Con material hemerográfico histórico de la Hemeroteca Nacional de Caracas, el libro documenta cómo tres generaciones participaron activamente en la construcción democrática del país.</p>
             </div>
             <div class="about-details">
-                <img src="assets/images/portada-libro.jpg" alt="Portada del libro La vida sigue, la lucha continúa" class="about-cover">
+                <img src="assets/images/portada-libro.jpg" alt="Portada del libro La vida sigue, la lucha continúa" data-i18n-alt="alt.cover" class="about-cover">
                 <div class="about-text">
-                <h3>Ficha técnica</h3>
+                <h3 data-i18n="about.details">Ficha técnica</h3>
                 <ul class="about-list">
-                    <li><strong>Editorial:</strong> Temple, S.L.</li>
-                    <li><strong>Páginas:</strong> 300</li>
+                    <li data-i18n="about.publisher"><strong>Editorial:</strong> Temple, S.L.</li>
+                    <li data-i18n="about.pages"><strong>Páginas:</strong> 300</li>
                     <li><strong>ISBN:</strong> 978-84-960 18-63-1</li>
-                    <li><strong>Formato:</strong> 15,5 x 25 cm</li>
-                    <li><strong>Encuadernación:</strong> Tapa dura</li>
-                    <li><strong>Primera edición:</strong> Abril 2026</li>
+                    <li data-i18n="about.format"><strong>Formato:</strong> 15,5 x 25 cm</li>
+                    <li data-i18n="about.binding"><strong>Encuadernación:</strong> Tapa dura</li>
+                    <li data-i18n="about.edition"><strong>Primera edición:</strong> Abril 2026</li>
                 </ul>
                 </div>
             </div>
@@ -1165,43 +1388,43 @@
 
     <!-- Upcoming Events Section -->
     <section class="upcoming-events-section" id="eventos">
-        <h2 class="section-title">Encuentros con el autor</h2>
+        <h2 class="section-title" data-i18n="events.title">Encuentros con el autor</h2>
         <div class="events-timeline" id="eventsTimeline">
             <!-- Los eventos se cargarán desde Supabase si está configurado -->
             <!-- Fallback: eventos estáticos -->
             <div class="event-card">
                 <div class="event-date">
-                    <span class="date-day">30 Septiembre</span>
+                    <span class="date-day" data-i18n="ev1.date">30 Septiembre</span>
                     <span class="date-year">2026</span>
                 </div>
                 <div class="event-info">
-                    <h3>Presentación en el Parlamento Europeo</h3>
-                    <p class="event-venue">Biblioteca del Parlamento Europeo, Bruselas</p>
-                    <p class="event-description">Presentado por Esteban González Pons, eurodiputado y vicepresidente del Parlamento Europeo, con la participación del eurodiputado Antonio López Istúriz.</p>
-                    <a href="#bruselas" class="event-link">Más información →</a>
+                    <h3 data-i18n="pe.title">Presentación en el Parlamento Europeo</h3>
+                    <p class="event-venue" data-i18n="ev1.venue">Biblioteca del Parlamento Europeo, Bruselas</p>
+                    <p class="event-description" data-i18n="ev1.desc">Presentado por Esteban González Pons, eurodiputado y vicepresidente del Parlamento Europeo, con la participación del eurodiputado Antonio López Istúriz.</p>
+                    <a href="#bruselas" class="event-link" data-i18n="ev1.link">Más información →</a>
                 </div>
             </div>
             <div class="event-card">
                 <div class="event-date">
-                    <span class="date-day">Junio</span>
+                    <span class="date-day" data-i18n="ev2.date">Junio</span>
                     <span class="date-year">2026</span>
                 </div>
                 <div class="event-info">
-                    <h3>Feria del Libro de Madrid</h3>
-                    <p class="event-venue">Parque del Retiro, Madrid</p>
-                    <p class="event-description">Firma de ejemplares del libro.</p>
+                    <h3 data-i18n="ev2.title">Feria del Libro de Madrid</h3>
+                    <p class="event-venue" data-i18n="ev2.venue">Parque del Retiro, Madrid</p>
+                    <p class="event-description" data-i18n="ev2.desc">Firma de ejemplares del libro.</p>
                 </div>
             </div>
             <div class="event-card">
                 <div class="event-date">
-                    <span class="date-day">29 Mayo</span>
+                    <span class="date-day" data-i18n="ev3.date">29 Mayo</span>
                     <span class="date-year">2026</span>
                 </div>
                 <div class="event-info">
-                    <h3>Presentación en el Ateneo de Madrid</h3>
+                    <h3 data-i18n="ev3.title">Presentación en el Ateneo de Madrid</h3>
                     <p class="event-venue">Ateneo de Madrid</p>
-                    <p class="event-description">Con las intervenciones de Vidal Pérez Herrero, José Manuel García-Margallo y Paula Quinteros.</p>
-                    <a href="https://www.youtube.com/watch?v=xsfOM3eZF7E" target="_blank" class="event-link">Ver en YouTube →</a>
+                    <p class="event-description" data-i18n="ev3.desc">Con las intervenciones de Vidal Pérez Herrero, José Manuel García-Margallo y Paula Quinteros.</p>
+                    <a href="https://www.youtube.com/watch?v=xsfOM3eZF7E" target="_blank" class="event-link" data-i18n="ev3.link">Ver en YouTube →</a>
                 </div>
             </div>
         </div>
@@ -1214,12 +1437,181 @@
                 <a href="https://twitter.com/LeopoldoLopezG" target="_blank">Twitter/X: @LeopoldoLopezG</a>
                 <a href="https://www.instagram.com/leopoldolopezgil" target="_blank">Instagram: @leopoldolopezgil</a>
             </div>
-            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.5;">
-                © 2026 X21 Consulting. Todos los derechos reservados.
-            </p>
+            <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.5;" data-i18n="footer.rights">© 2026 X21 Consulting. Todos los derechos reservados.</p>
         </div>
     </footer>
 
+    <script>
+        // ========================================
+        // IDIOMA (ES/EN) Y NAVEGACIÓN
+        // ========================================
+        (function () {
+            const EN = {
+                "meta.title": "La vida sigue, la lucha continúa (Life Goes On, the Struggle Continues) - Leopoldo López Gil",
+                "banner.text": "<strong>TODAY, 30 SEPTEMBER</strong> — Book presentation at the European Parliament, Brussels",
+                "banner.button": "See details",
+                "nav.label": "Main",
+                "nav.langLabel": "Language",
+                "nav.toggle": "Open menu",
+                "nav.brussels": "Brussels",
+                "nav.author": "The author",
+                "nav.book": "The book",
+                "nav.gallery": "Gallery",
+                "nav.events": "Events",
+                "insights.download": "Download full press kit (Spanish, PDF)",
+                "footer.rights": "© 2026 X21 Consulting. All rights reserved.",
+                "hero.cta": "Presentation at the European Parliament",
+                "alt.cover": "Cover of the book La vida sigue, la lucha continúa",
+                "alt.g1": "President of Fundayacucho",
+                "alt.g2": "Presenting a book to Mariano Rajoy",
+                "alt.g3": "Meeting with Josep Borrell",
+                "alt.g4": "With José Manuel García-Margallo",
+                "alt.g5": "Zeta magazine, 1975",
+                "gallery.prev": "Previous",
+                "gallery.next": "Next",
+                "hero.subtitle": "<em>Life Goes On, the Struggle Continues</em> · Four generations committed to Venezuelan democracy",
+                "pe.title": "Presentation at the European Parliament",
+                "pe.kicker": "Today · Brussels",
+                "pe.date": "30 September 2026",
+                "pe.venue": "European Parliament Library",
+                "pe.city": "Brussels",
+                "pe.presenter": "Presented by Esteban González Pons",
+                "pe.presenterRole": "Member and Vice-President of the European Parliament",
+                "pe.participant": "With the participation of Antonio López Istúriz",
+                "pe.participantRole": "Member of the European Parliament",
+                "pe.intro1": "Leopoldo López Gil presents his book <em>La vida sigue, la lucha continúa</em> (<em>Life Goes On, the Struggle Continues</em>) at the European Parliament. The event holds special meaning for the author, who returns to the institution where he served as a Member of the European Parliament from 2019 to 2024.",
+                "pe.intro2": "The event is an opportunity to reflect on the ties between Europe and Latin America and on the political, social and educational challenges facing new generations. López Gil will address some of the book's major themes: the history of Venezuela, memory and commitment across generations, the role of education in the development and rebuilding of nations, and the defence of democracy and the rule of law.",
+                "words.title": "In the author's words",
+                "words.text": "I wanted to write about how the commitment to freedom is passed down from generation to generation, and about the role education played —especially the Gran Mariscal de Ayacucho Scholarship Programme— in building the Venezuela I knew and believed in. This book is not an exercise in nostalgia, but a need to bear witness to a lineage of Venezuelans who took an active part in the task of building a country.",
+                "insights.title": "A testimony of four generations",
+                "insights.hint": "Learn more",
+                "card1.title": "From the 18th century to the present",
+                "card1.front": "A historical journey spanning more than two centuries of Venezuelan history.",
+                "card1.back": "The book documents the López family's part in Venezuela's defining moments: from the struggle for independence, through exile under the dictatorship of Juan Vicente Gómez and the democratic rebuilding of 1958, to today's crisis and the Venezuelan diaspora.",
+                "card2.title": "The power of education",
+                "card2.front": "A first-hand account of the Gran Mariscal de Ayacucho Scholarship Programme.",
+                "card2.back": "Created in 1974, the programme sent thousands of young Venezuelans to the world's best universities. The \"Ayacuchos\" were a generation of professionals who came home hoping to build a prosperous, modern Venezuela.",
+                "card3.title": "A unique historical archive",
+                "card3.front": "Newspaper archives and photographs from the family's personal collection.",
+                "card3.back": "The book includes original documents from the National Newspaper Library in Caracas and previously unpublished photographs from the López family archive, making it a historical document of the first order.",
+                "card4.title": "From 4 to 30 million",
+                "card4.front": "A witness to Venezuela's dizzying transformation.",
+                "card4.back": "The author recounts how Venezuela went from 4 million inhabitants and only 8,000 university students to designing a university campus for 15,000 that would end up hosting more than 50,000. \"The country did not grow in a straight line: it advanced in dizzying leaps.\"",
+                "card5.title": "Memory and hope",
+                "card5.front": "\"Life goes on, the struggle continues\": a message of continuity across generations.",
+                "card5.back": "\"I understood that memory is not just remembrance; it is projection. What we have lived is understanding, order and the passing on of what we have learned. Commitment to one's country is not a circumstantial decision, but a way of life passed down from generation to generation.\"",
+                "gallery.title": "Gallery",
+                "gallery.c1": "Being sworn in as president of Fundayacucho for the second time, in the Hall of Mirrors at Miraflores Palace. Much had happened since that first time, when I was a young man of 29. On this occasion, in February 1989, President Pérez told me: \"I will be remembered more for the Ayacucho Foundation than for the nationalisation of oil.\"",
+                "gallery.c2": "We presented Prime Minister Mariano Rajoy with the book \"Preso pero Libre\" at the Moncloa Palace. Mariano Rajoy was the first head of government to receive Lilian to hear about Leopoldo's situation in prison. He granted us Spanish nationality, a gesture for which we will always be grateful. He continues to follow Venezuela and its events closely.",
+                "gallery.c3": "I gave Josep Borrell Javier Moro's book about Leopoldo and Lilian. We met, as on so many occasions, at the European Parliament. Borrell was then the EU's High Representative. He always showed concern for the human rights situation in Venezuela.",
+                "gallery.c4": "My relationship with José Manuel García-Margallo has never been limited to political ties. José Manuel has always been a guide to understanding Spain and its political and cultural history. We have shared a number of European Parliament missions.",
+                "gallery.c5": "In Zeta magazine, 8 June 1975.",
+                "about.title": "About the book",
+                "about.subtitle": "A historical testimony",
+                "about.p1": "300 pages tracing the history of Venezuela from the 18th century to the present, interweaving family memory and political struggle.",
+                "about.p2": "Drawing on historical newspaper material from the National Newspaper Library in Caracas, the book documents how three generations took an active part in building the country's democracy.",
+                "about.details": "Book details",
+                "about.publisher": "<strong>Publisher:</strong> Temple, S.L.",
+                "about.pages": "<strong>Pages:</strong> 300",
+                "about.format": "<strong>Format:</strong> 15.5 x 25 cm",
+                "about.binding": "<strong>Binding:</strong> Hardcover",
+                "about.edition": "<strong>First edition:</strong> April 2026",
+                "events.title": "Meet the author",
+                "ev1.date": "30 September",
+                "ev1.venue": "European Parliament Library, Brussels",
+                "ev1.desc": "Presented by Esteban González Pons, Member and Vice-President of the European Parliament, with the participation of MEP Antonio López Istúriz.",
+                "ev1.link": "More information →",
+                "ev2.date": "June",
+                "ev2.title": "Madrid Book Fair",
+                "ev2.venue": "Retiro Park, Madrid",
+                "ev2.desc": "Book signing.",
+                "ev3.date": "29 May",
+                "ev3.title": "Presentation at the Ateneo de Madrid",
+                "ev3.desc": "With Vidal Pérez Herrero, José Manuel García-Margallo and Paula Quinteros.",
+                "ev3.link": "Watch on YouTube →"
+            };
+            const ES = { 'meta.title': document.title };
+            const header = document.getElementById('siteHeader');
+            const navLinks = document.getElementById('navLinks');
+            const navToggle = document.getElementById('navToggle');
+            const timeline = document.getElementById('eventsTimeline');
+            const staticEventsHTML = timeline.innerHTML;
+            let remoteEventsHTML = null;
+            let currentLang = window.__llgLang === 'en' ? 'en' : 'es';
+
+            // Guardar los textos originales en español
+            document.querySelectorAll('[data-i18n]').forEach(el => { ES[el.dataset.i18n] = el.innerHTML; });
+            document.querySelectorAll('[data-i18n-alt]').forEach(el => { ES[el.dataset.i18nAlt] = el.getAttribute('alt'); });
+            document.querySelectorAll('[data-i18n-aria]').forEach(el => { ES[el.dataset.i18nAria] = el.getAttribute('aria-label'); });
+
+            function translate(root, dict) {
+                root.querySelectorAll('[data-i18n]').forEach(el => {
+                    const v = dict[el.dataset.i18n];
+                    if (v !== undefined) el.innerHTML = v;
+                });
+                root.querySelectorAll('[data-i18n-alt]').forEach(el => {
+                    const v = dict[el.dataset.i18nAlt];
+                    if (v !== undefined) el.setAttribute('alt', v);
+                });
+                root.querySelectorAll('[data-i18n-aria]').forEach(el => {
+                    const v = dict[el.dataset.i18nAria];
+                    if (v !== undefined) el.setAttribute('aria-label', v);
+                });
+            }
+
+            // Los eventos de Supabase solo existen en español: en inglés se muestran los estáticos traducidos
+            function renderEvents() {
+                timeline.innerHTML = (currentLang === 'es' && remoteEventsHTML) ? remoteEventsHTML : staticEventsHTML;
+                if (currentLang === 'en') translate(timeline, EN);
+            }
+
+            window.llgSetRemoteEvents = function (html) {
+                remoteEventsHTML = html;
+                renderEvents();
+            };
+
+            function setLang(lang, remember) {
+                currentLang = lang;
+                const dict = lang === 'en' ? EN : ES;
+                translate(document, dict);
+                renderEvents();
+                document.title = dict['meta.title'];
+                document.documentElement.lang = lang;
+                document.querySelectorAll('.lang-switch button').forEach(b => {
+                    b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+                });
+                if (remember) {
+                    try { localStorage.setItem('llg-lang', lang); } catch (e) {}
+                }
+                updateHeaderHeight();
+            }
+
+            document.querySelectorAll('.lang-switch button').forEach(b => {
+                b.addEventListener('click', () => setLang(b.dataset.lang, true));
+            });
+
+            // Menú hamburguesa (móvil)
+            function closeMenu() {
+                navLinks.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+            navToggle.addEventListener('click', () => {
+                const open = navLinks.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', String(open));
+            });
+            navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+            // Altura de la cabecera fija para que los anclajes no queden tapados
+            function updateHeaderHeight() {
+                document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+            }
+            window.addEventListener('resize', updateHeaderHeight);
+
+            setLang(currentLang, false);
+            document.documentElement.classList.remove('i18n-pending');
+        })();
+    </script>
     <script>
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1374,8 +1766,7 @@
                         
                         // Si hay eventos, reemplazar el HTML
                         if (eventos && eventos.length > 0) {
-                            const timeline = document.getElementById('eventsTimeline');
-                            timeline.innerHTML = eventos.map(evento => `
+                            window.llgSetRemoteEvents(eventos.map(evento => `
     <div class="event-card">
         <div class="event-date">
             <span class="date-day">${escapeHtml(evento.fecha)}</span>
@@ -1385,11 +1776,11 @@
             <h3>${escapeHtml(evento.titulo)}</h3>
             <p class="event-venue">${escapeHtml(evento.lugar)}</p>
             <p class="event-description">${escapeHtml(evento.descripcion)}</p>
-            ${evento.link_externo ? `<a href="${escapeHtml(evento.link_externo)}" target="_blank" class="event-link">Más información →</a>` : ''}
+            ${evento.link_externo ? `<a href="${escapeHtml(evento.link_externo)}" target="_blank" class="event-link" data-i18n="ev1.link">Más información →</a>` : ''}
         </div>
     </div>
-`).join('');
-                            
+`).join(''));
+
                             console.log(`✅ ${eventos.length} eventos cargados desde Supabase`);
                         }
                     } catch (error) {
