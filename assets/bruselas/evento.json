@@ -3,48 +3,43 @@
   "fotos": [
     {
       "archivo": "bx-01.jpg",
-      "pie_es": "Un momento de emoción durante la presentación.",
-      "pie_en": "A moment of emotion during the presentation."
-    },
-    {
-      "archivo": "bx-02.jpg",
-      "pie_es": "En la Biblioteca del Parlamento Europeo.",
-      "pie_en": "At the European Parliament Library."
+      "pie_es": "Leopoldo López Gil, en un momento de emoción durante la presentación.",
+      "pie_en": "Leopoldo López Gil in an emotional moment during the presentation."
     },
     {
       "archivo": "bx-03.jpg",
-      "pie_es": "«La vida sigue, la lucha continúa», en la sala de la presentación.",
-      "pie_en": "La vida sigue, la lucha continúa at the presentation venue."
+      "pie_es": "La portada de «La vida sigue, la lucha continúa», en la Biblioteca del Parlamento Europeo.",
+      "pie_en": "The cover of La vida sigue, la lucha continúa at the European Parliament Library."
     },
     {
       "archivo": "bx-04.jpg",
-      "pie_es": "Entrega de un ejemplar del libro.",
-      "pie_en": "Presenting a copy of the book."
+      "pie_es": "Leopoldo López Gil entrega un ejemplar del libro a la eurodiputada Dolors Montserrat.",
+      "pie_en": "Leopoldo López Gil presents a copy of the book to MEP Dolors Montserrat."
     },
     {
       "archivo": "bx-05.jpg",
-      "pie_es": "Hojeando el libro en la Biblioteca del Parlamento Europeo.",
-      "pie_en": "Leafing through the book at the European Parliament Library."
+      "pie_es": "La eurodiputada Pilar del Castillo hojea el libro junto a Leopoldo López Gil.",
+      "pie_en": "MEP Pilar del Castillo leafs through the book with Leopoldo López Gil."
     },
     {
       "archivo": "bx-06.jpg",
-      "pie_es": "Un momento de la conversación ante el público.",
-      "pie_en": "A moment from the conversation with the audience."
+      "pie_es": "Un momento de la presentación ante el público en la Biblioteca del Parlamento Europeo.",
+      "pie_en": "A moment from the presentation before the audience at the European Parliament Library."
     },
     {
       "archivo": "bx-07.jpg",
-      "pie_es": "En el Parlamento Europeo, Bruselas, 30 de septiembre de 2026.",
-      "pie_en": "At the European Parliament, Brussels, September 30th, 2026."
+      "pie_es": "De izquierda a derecha: Esteban González Pons, vicepresidente del Parlamento Europeo; Antonieta Mendoza de López; Leopoldo López Gil, y el eurodiputado Antonio López Istúriz.",
+      "pie_en": "From left to right: Esteban González Pons, Vice-President of the European Parliament; Antonieta Mendoza de López; Leopoldo López Gil; and MEP Antonio López Istúriz."
     },
     {
       "archivo": "bx-08.jpg",
-      "pie_es": "Un momento de las intervenciones en la Biblioteca del Parlamento Europeo.",
-      "pie_en": "A moment from the speeches at the European Parliament Library."
+      "pie_es": "Esteban González Pons, vicepresidente del Parlamento Europeo, durante la presentación del libro.",
+      "pie_en": "Esteban González Pons, Vice-President of the European Parliament, introducing the book."
     },
     {
       "archivo": "bx-09.jpg",
-      "pie_es": "El público asistente a la presentación.",
-      "pie_en": "The audience at the presentation."
+      "pie_es": "Asistentes a la presentación en la Biblioteca del Parlamento Europeo.",
+      "pie_en": "Attendees at the presentation in the European Parliament Library."
     }
   ],
   "discurso": {
