@@ -572,6 +572,21 @@
             margin-bottom: 1rem;
         }
 
+        .event-map {
+            display: inline-block;
+            margin-top: 0.75rem;
+            color: var(--color-accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .event-map:hover {
+            border-bottom-color: var(--color-accent);
+        }
+
         .event-speaker {
             font-size: 0.95rem;
             opacity: 0.8;
@@ -1607,8 +1622,8 @@ section[id] {
     <!-- Banner de aviso -->
     <div class="aforo-banner">
         <div class="container">
-            <span class="banner-text" data-i18n="banner.text"><strong>30 DE SEPTIEMBRE</strong> — Leopoldo López Gil presentó su libro en el Parlamento Europeo, en Bruselas</span>
-            <a href="#bruselas" class="banner-button" data-i18n="banner.button">Ver el acto</a>
+            <span class="banner-text" data-i18n="banner.text"><strong>PRÓXIMO ENCUENTRO · 14 DE OCTUBRE, 18:30 H</strong> — Presentación del libro en Madrid, en la sede de Cremades &amp; Calvo-Sotelo</span>
+            <a href="#madrid" class="banner-button" data-i18n="banner.button">Ver detalles</a>
         </div>
     </div>
 
@@ -1617,10 +1632,11 @@ section[id] {
         <div class="nav-inner">
             <a href="#inicio" class="nav-brand">La vida sigue, la lucha continúa</a>
             <ul class="nav-links" id="navLinks">
+                <li><a href="#madrid" data-i18n="nav.madrid">Madrid</a></li>
                 <li><a href="#bruselas" data-i18n="nav.brussels">Bruselas</a></li>
                 <li><a href="#autor" data-i18n="nav.author">El autor</a></li>
                 <li><a href="#testimonio" data-i18n="nav.book">El libro</a></li>
-                <li><a href="#galeria" data-i18n="nav.gallery" data-i18n="gallery.title">Galería</a></li>
+                <li><a href="#galeria" data-i18n="nav.gallery">Galería</a></li>
                 <li><a href="#eventos" data-i18n="nav.events">Encuentros</a></li>
                 <li><a href="#prensa" data-i18n="nav.press">Prensa</a></li>
             </ul>
@@ -1642,10 +1658,35 @@ section[id] {
                 <h1>La vida sigue, la lucha continúa</h1>
                 <p class="subtitle" data-i18n="hero.subtitle">Cuatro generaciones comprometidas con la democracia venezolana</p>
                 <p class="author">Leopoldo López Gil</p>
-                <a href="#bruselas" class="cta-button" data-i18n="hero.cta">Presentación en el Parlamento Europeo</a>
+                <a href="#madrid" class="cta-button" data-i18n="hero.cta">Presentación en Madrid · 14 de octubre</a>
             </div>
             <div class="hero-image">
                 <img src="assets/images/portada-libro.jpg" alt="Portada del libro La vida sigue, la lucha continúa" data-i18n-alt="alt.cover" class="book-cover">
+            </div>
+        </div>
+    </section>
+
+    <!-- Presentación en Madrid (Cremades & Calvo-Sotelo) -->
+    <section class="event-section" id="madrid">
+        <span class="event-kicker" data-i18n="md.kicker">Próximo encuentro · Madrid</span>
+        <h2 class="section-title" data-i18n="md.title">Presentación en Cremades &amp; Calvo-Sotelo</h2>
+
+        <div class="event-details">
+            <p class="event-highlight" data-i18n="md.date">Miércoles 14 de octubre de 2026 · 18:30 h</p>
+
+            <p class="event-location">Cremades &amp; Calvo-Sotelo</p>
+            <p class="event-location" data-i18n="md.address">Calle Jorge Juan, 30 · Madrid</p>
+            <a class="event-map" href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Jorge+Juan+30+Madrid" target="_blank" rel="noopener" data-i18n="md.map">Cómo llegar →</a>
+
+            <div class="decorative-line"></div>
+
+            <p class="event-location" data-i18n="md.with1">En conversación con Antonio Ledezma</p>
+            <p class="event-speaker" data-i18n="md.with1Role">Abogado, exalcalde de Caracas y activista político</p>
+            <p class="event-location" data-i18n="md.with2">y con Gilberto Carrasquero</p>
+            <p class="event-speaker" data-i18n="md.with2Role">Abogado y politólogo</p>
+
+            <div class="event-intro">
+                <p data-i18n="md.intro">Leopoldo López Gil presenta <em>La vida sigue, la lucha continúa</em> en Madrid, en una conversación con Antonio Ledezma y Gilberto Carrasquero en la sede de Cremades &amp; Calvo-Sotelo.</p>
             </div>
         </div>
     </section>
@@ -1904,6 +1945,18 @@ section[id] {
             <!-- Fallback: eventos estáticos -->
             <div class="event-card">
                 <div class="event-date">
+                    <span class="date-day" data-i18n="ev0.date">14 Octubre</span>
+                    <span class="date-year">2026</span>
+                </div>
+                <div class="event-info">
+                    <h3 data-i18n="md.title">Presentación en Cremades &amp; Calvo-Sotelo</h3>
+                    <p class="event-venue" data-i18n="ev0.venue">Calle Jorge Juan, 30, Madrid · 18:30 h</p>
+                    <p class="event-description" data-i18n="ev0.desc">En conversación con Antonio Ledezma, abogado, exalcalde de Caracas y activista político, y con Gilberto Carrasquero, abogado y politólogo.</p>
+                    <a href="#madrid" class="event-link" data-i18n="ev0.link">Más información →</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
                     <span class="date-day" data-i18n="ev1.date">30 Septiembre</span>
                     <span class="date-year">2026</span>
                 </div>
@@ -1996,12 +2049,27 @@ section[id] {
         (function () {
             const EN = {
                 "meta.title": "La vida sigue, la lucha continúa (Life Goes On, the Struggle Continues) - Leopoldo López Gil",
-                "banner.text": "<strong>SEPTEMBER 30TH</strong> — Leopoldo López Gil presented his book at the European Parliament in Brussels",
-                "banner.button": "See the event",
+                "banner.text": "<strong>NEXT EVENT · OCTOBER 14TH, 6:30 PM</strong> — Book presentation in Madrid, at Cremades &amp; Calvo-Sotelo",
+                "banner.button": "See details",
                 "nav.label": "Main",
                 "nav.langLabel": "Language",
                 "nav.toggle": "Open menu",
+                "nav.madrid": "Madrid",
                 "nav.brussels": "Brussels",
+                "md.kicker": "Next event · Madrid",
+                "md.title": "Presentation at Cremades &amp; Calvo-Sotelo",
+                "md.date": "Wednesday, October 14th, 2026 · 6:30 pm",
+                "md.address": "Calle Jorge Juan, 30 · Madrid",
+                "md.map": "Get directions →",
+                "md.with1": "In conversation with Antonio Ledezma",
+                "md.with1Role": "Lawyer, former Mayor of Caracas and political activist",
+                "md.with2": "and Gilberto Carrasquero",
+                "md.with2Role": "Lawyer and political scientist",
+                "md.intro": "Leopoldo López Gil presents <em>La vida sigue, la lucha continúa</em> (<em>Life Goes On, the Struggle Continues</em>) in Madrid, in conversation with Antonio Ledezma and Gilberto Carrasquero at the offices of Cremades &amp; Calvo-Sotelo.",
+                "ev0.date": "October 14th",
+                "ev0.venue": "Calle Jorge Juan, 30, Madrid · 6:30 pm",
+                "ev0.desc": "In conversation with Antonio Ledezma, lawyer, former Mayor of Caracas and political activist, and Gilberto Carrasquero, lawyer and political scientist.",
+                "ev0.link": "More information →",
                 "nav.author": "The author",
                 "nav.book": "The book",
                 "nav.gallery": "Gallery",
@@ -2017,7 +2085,7 @@ section[id] {
                 "footer.rights": "© 2026 Leopoldo López Gil. All rights reserved.",
                 "footer.credit": "Communications strategy",
                 "footer.creditLabel": "Communications strategy: X21 — x21.consulting",
-                "hero.cta": "Presentation at the European Parliament",
+                "hero.cta": "Presentation in Madrid · October 14th",
                 "alt.cover": "Cover of the book La vida sigue, la lucha continúa",
                 "alt.g1": "President of Fundayacucho",
                 "alt.g2": "Presenting a book to Mariano Rajoy",
