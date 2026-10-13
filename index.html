@@ -714,6 +714,16 @@
             margin-top: 1.5rem;
         }
 
+        .event-description a {
+            color: var(--color-secondary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .event-description a:hover {
+            text-decoration: underline;
+        }
+
         .event-thumbs {
             display: flex;
             flex-wrap: wrap;
@@ -953,6 +963,40 @@
 
         .media-card:hover .media-clip img {
             transform: scale(1.03);
+        }
+
+        @media (min-width: 769px) {
+            .media-card.wide {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                align-items: stretch;
+                padding: 0;
+            }
+
+            .media-card.wide .media-clip {
+                flex: 0 0 52%;
+                margin: 0;
+                aspect-ratio: auto;
+                min-height: 260px;
+                border-bottom: 0;
+                border-right: 1px solid rgba(139, 105, 20, 0.15);
+            }
+
+            .media-card.wide .media-body {
+                display: flex;
+                flex-direction: column;
+                padding: 1.75rem 2rem;
+            }
+
+            .media-card.wide .media-headline {
+                font-size: 1.45rem;
+            }
+        }
+
+        .media-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .media-clip-empty {
@@ -1850,7 +1894,7 @@ section[id] {
         <div class="events-timeline" id="eventsTimeline">
             <!-- Los eventos se cargarán desde Supabase si está configurado -->
             <!-- Fallback: eventos estáticos -->
-            <p class="events-group" data-i18n="events.next">Próximo encuentro</p>
+            <p class="events-group" data-i18n="events.next">Próximos encuentros</p>
             <div class="event-card event-next">
                 <div class="event-date">
                     <span class="date-day" data-i18n="ev0.date">14 Octubre</span>
@@ -1861,6 +1905,31 @@ section[id] {
                     <p class="event-venue" data-i18n="ev0.venue">Calle Jorge Juan, 30, Madrid · 18:30 h</p>
                     <p class="event-description" data-i18n="ev0.desc">En conversación con Antonio Ledezma, abogado, exalcalde de Caracas y activista político, y con Gilberto Carrasquero, abogado y politólogo. Entrada libre hasta completar el aforo.</p>
                     <a href="#proximo-evento" class="event-link" data-i18n="ev0.link">Más información →</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="date-day" data-i18n="evA.date">21 Octubre</span>
+                    <span class="date-year">2026</span>
+                </div>
+                <div class="event-info">
+                    <h3 data-i18n="evA.title">Presentación en Arganda del Rey</h3>
+                    <p class="event-venue" data-i18n="evA.venue">Patio Central de ESMAR · C/ Solanilla, 27, Arganda del Rey · 19:00 h</p>
+                    <p class="event-description" data-i18n="evA.desc">El alcalde de Arganda del Rey, Alberto Escribano García, invita a la presentación del libro, publicado por la Editorial Temple. El acto contará con la presencia del autor.</p>
+                    <p class="event-description" data-i18n="evA.rsvp">Se ruega confirmar asistencia: <a href="mailto:alcaldia@argandadelrey.es">alcaldia@argandadelrey.es</a></p>
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Solanilla+27+Arganda+del+Rey" target="_blank" rel="noopener" class="event-link" data-i18n="ev.map">Cómo llegar →</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="date-day" data-i18n="evB.date">29 Octubre</span>
+                    <span class="date-year">2026</span>
+                </div>
+                <div class="event-info">
+                    <h3 data-i18n="evB.title">Presentación en la Librería TROA</h3>
+                    <p class="event-venue" data-i18n="evB.venue">Calle Serrano, 80, Madrid · 19:00 h</p>
+                    <p class="event-description" data-i18n="evB.desc">Presentación del libro y conversatorio con el crítico literario Carlos Sandoval.</p>
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Libreria+TROA+Calle+Serrano+80+Madrid" target="_blank" rel="noopener" class="event-link" data-i18n="ev.map">Cómo llegar →</a>
                 </div>
             </div>
             <p class="events-group" data-i18n="events.past">Encuentros anteriores</p>
@@ -2045,7 +2114,17 @@ section[id] {
                 "about.binding": "<strong>Binding:</strong> Hardcover",
                 "about.edition": "<strong>First edition:</strong> April 2026",
                 "events.title": "Meet the author",
-                "events.next": "Next event",
+                "events.next": "Upcoming events",
+                "evA.date": "October 21st",
+                "evA.title": "Presentation in Arganda del Rey",
+                "evA.venue": "Patio Central de ESMAR · C/ Solanilla, 27, Arganda del Rey · 7:00 pm",
+                "evA.desc": "The Mayor of Arganda del Rey, Alberto Escribano García, invites you to the presentation of the book, published by Editorial Temple. The author will be in attendance.",
+                "evA.rsvp": "RSVP: <a href=\"mailto:alcaldia@argandadelrey.es\">alcaldia@argandadelrey.es</a>",
+                "evB.date": "October 29th",
+                "evB.title": "Presentation at Librería TROA",
+                "evB.venue": "Calle Serrano, 80, Madrid · 7:00 pm",
+                "evB.desc": "Book presentation and conversation with literary critic Carlos Sandoval.",
+                "ev.map": "Get directions →",
                 "events.past": "Past events",
                 "ev1.photos": "See photos of the event →",
                 "ev1.speech": "Download the speech (Spanish, PDF) →",
@@ -2293,9 +2372,11 @@ section[id] {
                         }
                         a.appendChild(clip);
                     }
+                    const body = el('div', 'media-body');
                     const head = el('div');
                     head.append(el('div', 'media-outlet', it.medio), el('div', 'media-meta', meta));
-                    a.append(head, el('div', 'media-headline', it.titular), el('div', 'media-more', action));
+                    body.append(head, el('div', 'media-headline', it.titular), el('div', 'media-more', action));
+                    a.appendChild(body);
                     if (it.destacado) {
                         featured.appendChild(a);
                     } else {
@@ -2304,6 +2385,9 @@ section[id] {
                         list.appendChild(li);
                     }
                 });
+                // Con un número impar de destacados, el primero ocupa todo el ancho
+                const cards = featured.querySelectorAll('.media-card');
+                if (cards.length % 2 === 1) cards[0].classList.add('wide');
                 box.hidden = items.length === 0;
             }
 

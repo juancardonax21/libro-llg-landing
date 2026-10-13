@@ -1,6 +1,16 @@
 {
   "impactos": [
     {
+      "medio": "Diario Las Américas",
+      "fecha": "2026-10-10",
+      "tipo": "noticia",
+      "soporte": "digital",
+      "destacado": true,
+      "titular": "Leopoldo López Gil presenta en Madrid su testimonio de 70 años de compromiso con la democracia",
+      "url": "https://www.diariolasamericas.com/mundo/leopoldo-lopez-gil-presenta-madrid-su-testimonio-70-anos-compromiso-la-democracia-n5403511",
+      "imagen": "foto-diariolasamericas.jpg"
+    },
+    {
       "medio": "El País",
       "fecha": "2026-05-29",
       "tipo": "entrevista",
