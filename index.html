@@ -999,6 +999,12 @@
             flex: 1;
         }
 
+        /* En la lista secundaria el bloque no existe a efectos de maquetación:
+           sus hijos ocupan directamente las columnas medio · titular · enlace */
+        .media-list .media-body {
+            display: contents;
+        }
+
         .media-clip-empty {
             display: flex;
             align-items: center;
